@@ -4,8 +4,8 @@ import { Contact } from '../models';
 
 @Component({
   selector: 'app-contacts-list',
-  templateUrl: './contacts.component.html',
-  styleUrls: ['./contacts.component.css']
+  templateUrl: './contact-list.component.html',
+  styleUrls: ['./contact-list.component.css']
 })
 export class ContactsComponent {
 
@@ -13,7 +13,6 @@ export class ContactsComponent {
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string){
     http.get<Contact[]>(baseUrl + 'Contacts/Get').subscribe(result => {
-      console.log(result)
       this.contacts = result;
     }, console.error);
   }
