@@ -1,6 +1,6 @@
 <ul>
     <li *ngFor="let contact of contacts">
-        <app-contact [contact]="contact">
-        </app-contact>
+        <span class="contact-name">{{ contact.firstName + " " + contact.lastName }}</span>
+        <button class="contact-btn">Details</button>
     </li>
 </ul>

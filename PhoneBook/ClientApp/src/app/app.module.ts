@@ -9,8 +9,8 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
-import { ContactsComponent } from './contacts-list/contact-list.component';
-import { ContactComponent } from './contact/contact.component';
+import { ContactListComponent } from './contacts-list/contact-list.component';
+import { ContactComponent } from './contact-details/contact-details.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +19,7 @@ import { ContactComponent } from './contact/contact.component';
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
-    ContactsComponent,
+    ContactListComponent,
     ContactComponent
   ],
   imports: [
@@ -30,7 +30,7 @@ import { ContactComponent } from './contact/contact.component';
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'contacts', component: ContactsComponent }
+      { path: 'contacts', component: ContactListComponent }
     ])
   ],
   providers: [],
