@@ -23,10 +23,10 @@ namespace PhoneBook
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // In production, the Angular files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/dist";
-            });
+            // services.AddSpaStaticFiles(configuration =>
+            // {
+            //     configuration.RootPath = "ClientApp/dist";
+            // });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,9 +43,10 @@ namespace PhoneBook
                 app.UseHsts();
             }
 
+            app.UseCors(c => c.AllowAnyOrigin());
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseSpaStaticFiles();
+            // app.UseStaticFiles();
+            // app.UseSpaStaticFiles();
 
             app.UseMvc(routes =>
             {
@@ -54,18 +55,18 @@ namespace PhoneBook
                     template: "{controller}/{action=Index}/{id?}");
             });
 
-            app.UseSpa(spa =>
-            {
-                // To learn more about options for serving an Angular SPA from ASP.NET Core,
-                // see https://go.microsoft.com/fwlink/?linkid=864501
+            // app.UseSpa(spa =>
+            // {
+            //     // To learn more about options for serving an Angular SPA from ASP.NET Core,
+            //     // see https://go.microsoft.com/fwlink/?linkid=864501
 
-                spa.Options.SourcePath = "ClientApp";
+            //     spa.Options.SourcePath = "ClientApp";
 
-                if (env.IsDevelopment())
-                {
-                    spa.UseAngularCliServer(npmScript: "start");
-                }
-            });
+            //     if (env.IsDevelopment())
+            //     {
+            //         spa.UseAngularCliServer(npmScript: "start");
+            //     }
+            // });
         }
     }
 }
