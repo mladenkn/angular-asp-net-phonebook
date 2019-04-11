@@ -16,6 +16,7 @@ namespace PhoneBook.Web
                 var contactService = services.ServiceProvider.GetService<IContactsService>();
                 await DataInitializer.Initialize(contactService);
             }
+            host.Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
