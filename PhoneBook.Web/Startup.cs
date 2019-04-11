@@ -33,7 +33,7 @@ namespace PhoneBook.Web
             });
 
             services.AddEntityFrameworkInMemoryDatabase();
-            services.AddDbContext<PhoneBookDbContext>(o => o.UseInMemoryDatabase(Guid.NewGuid().ToString()));
+            services.AddDbContext<PhoneBookDbContext>(o => o.UseInMemoryDatabase("PhonebookDb"));
 
             services.AddAutoMapper(o => o.AddProfile<MapperProfile>());
 
