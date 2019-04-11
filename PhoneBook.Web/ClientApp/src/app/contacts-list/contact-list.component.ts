@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ContactDetails } from '../models/contact';
+import { ContactListItem } from '../models/contact';
 
 @Component({
   selector: 'app-contacts-list',
@@ -9,10 +9,10 @@ import { ContactDetails } from '../models/contact';
 })
 export class ContactListComponent {
 
-  contacts: ContactDetails[]
+  contacts: ContactListItem[]
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string){
-    http.get<ContactDetails[]>(baseUrl + 'Contacts/Get').subscribe(
+    http.get<ContactListItem[]>(baseUrl + 'Contacts/GetList').subscribe(
       result => this.contacts = result, console.error);
   }
 }

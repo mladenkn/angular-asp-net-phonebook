@@ -1,12 +1,15 @@
+using System;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PhoneBook.DAL;
+using PhoneBook.Services;
 
-namespace PhoneBook
+namespace PhoneBook.Web
 {
     public class Startup
     {
@@ -21,12 +24,21 @@ namespace PhoneBook
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
+            
             // In production, the Angular files will be served from this directory
             // services.AddSpaStaticFiles(configuration =>
             // {
             //     configuration.RootPath = "ClientApp/dist";
             // });
+
+            services.AddEntityFrameworkInMemoryDatabase();
+            services.AddDbContext<PhoneBookDbContext>(o => o.UseInMemoryDatabase(Guid.NewGuid().ToString()));
+
+            services.AddAutoMapper(o => o.AddProfile<MapperProfile>());
+
+            services.AddTransient<IContactsService, ContactsService>();
+            services.AddTransient<IContactRepository, ContactRepository>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
