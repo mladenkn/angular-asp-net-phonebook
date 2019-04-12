@@ -15,6 +15,15 @@ namespace PhoneBook
         Task PersistChanges();
     }
 
+    public static class UnitOfWorkExtensions
+    {
+        public static void UpdateRange(this IUnitOfWork unitOfWork, IEnumerable<object> models)
+        {
+            foreach (var m in models)
+                unitOfWork.Update(m);
+        }
+    }
+
     public interface IDeletable
     {
         bool IsDeleted { get; set; }

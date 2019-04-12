@@ -11,7 +11,7 @@ namespace PhoneBook.Services
         Task<IEnumerable<ContactListItem>> GetList(GetContactListRequest r);
         Task Save(ContactAllData c);
         Task Delete(int contactId);
-        void Update(ContactAllData c);
+        Task Update(ContactAllData c);
     }
 
     public class ContactsService : IContactsService
@@ -45,9 +45,14 @@ namespace PhoneBook.Services
             await _unitOfWork.PersistChanges();
         }
 
-        public void Update(ContactAllData c)
+        public async Task Update(ContactAllData c)
         {
-            throw new System.NotImplementedException();
+            var dbModel = _mapper.Map<Contact>(c);
+            _unitOfWork.Update(dbModel);
+            _unitOfWork.UpdateRange(dbModel.PhoneNumbers);
+            _unitOfWork.UpdateRange(dbModel.Emails);
+            _unitOfWork.UpdateRange(dbModel.Tags);
+            await _unitOfWork.PersistChanges();
         }
     }
 }

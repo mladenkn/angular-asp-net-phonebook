@@ -20,9 +20,15 @@ namespace PhoneBook.DAL
             _mapper = mapper;
         }
 
+        public Task<Contact> GetOne(int contactId) => 
+            _dbContext.Contacts
+                .Where(c => !c.IsDeleted)
+                .FirstOrDefaultAsync(c => c.Id == contactId);
+
         public async Task<ContactAllData> GetDetails(int contactId)
         {
             var contact = await _dbContext.Contacts
+                .Where(c => !c.IsDeleted)
                 .Include(c => c.Emails)
                 .Include(c => c.Tags)
                 .Include(c => c.PhoneNumbers)
@@ -33,7 +39,9 @@ namespace PhoneBook.DAL
 
         public async Task<IEnumerable<ContactListItem>> GetList(GetContactListRequest r)
         {
-            var models = await _dbContext.Contacts.ToListAsync();
+            var models = await _dbContext.Contacts
+                .Where(c => !c.IsDeleted)
+                .ToListAsync();
             return models.Select(m => _mapper.Map<ContactListItem>(m));
         }
     }

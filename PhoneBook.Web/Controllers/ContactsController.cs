@@ -30,6 +30,6 @@ namespace PhoneBook.Web.Controllers
         public Task Post(ContactAllData c) => _contactsService.Save(c);
 
         [HttpPut("[action]")]
-        public void Put(ContactAllData c) => _contactsService.Update(c);
+        public Task Put(ContactAllData c) => _contactsService.Update(c);
     }
 }
