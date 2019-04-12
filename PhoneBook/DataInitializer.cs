@@ -10,7 +10,7 @@ namespace PhoneBook
         {
             var contacts = new[]
             {
-                new NewContactArgs
+                new ContactAllData
                 {
                     FirstName = "Mladen",
                     LastName = "Knezović",
@@ -26,9 +26,9 @@ namespace PhoneBook
                     Tags = new[] {"tag1", "tag2"}
                 },
 
-                new NewContactArgs
+                new ContactAllData
                 {
-                    FirstName = "Jure",
+                    FirstName = "Ante",
                     LastName = "Filipović",
                     Emails = new[]
                     {

@@ -6,7 +6,7 @@ namespace PhoneBook
 {
     public interface IContactRepository
     {
-        Task<ContactDetails> GetDetails(int contactId);
-        Task<IEnumerable<ContactListItem>> GetList();
+        Task<ContactAllData> GetDetails(int contactId);
+        Task<IEnumerable<ContactListItem>> GetList(GetContactListRequest r);
     }
 }

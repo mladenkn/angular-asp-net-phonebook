@@ -7,9 +7,9 @@ namespace PhoneBook.Services
 {
     public interface IContactsService
     {
-        Task<ContactDetails> GetDetails(int contactId);
-        Task<IEnumerable<ContactListItem>> GetList();
-        Task Save(NewContactArgs nc);
+        Task<ContactAllData> GetDetails(int contactId);
+        Task<IEnumerable<ContactListItem>> GetList(GetContactListRequest r);
+        Task Save(ContactAllData nc);
     }
 
     public class ContactsService : IContactsService
@@ -25,11 +25,11 @@ namespace PhoneBook.Services
             _unitOfWork = unitOfWork;
         }
 
-        public Task<ContactDetails> GetDetails(int contactId) => _repo.GetDetails(contactId);
+        public Task<ContactAllData> GetDetails(int contactId) => _repo.GetDetails(contactId);
 
-        public Task<IEnumerable<ContactListItem>> GetList() => _repo.GetList();
+        public Task<IEnumerable<ContactListItem>> GetList(GetContactListRequest r) => _repo.GetList(r);
 
-        public async Task Save(NewContactArgs nc)
+        public async Task Save(ContactAllData nc)
         {
             var dbModel = _mapper.Map<Contact>(nc);
             _unitOfWork.Add(dbModel);

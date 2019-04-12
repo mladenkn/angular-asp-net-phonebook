@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace PhoneBook.Models
 {
@@ -32,18 +33,9 @@ namespace PhoneBook.Models
     }
 
 
-    public class ContactDetails
+    public class ContactAllData
     {
         public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public IEnumerable<string> Emails { get; set; }
-        public IEnumerable<string> Tags { get; set; }
-        public IEnumerable<long> PhoneNumbers { get; set; }
-    }
-    
-    public class NewContactArgs
-    {
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public IEnumerable<string> Emails { get; set; }

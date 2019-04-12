@@ -17,10 +17,11 @@ namespace PhoneBook.Web.Controllers
         }
 
         [HttpGet("[action]/{contactId}")]
-        public Task<ContactDetails> Details(int contactId) => _contactsService.GetDetails(contactId);
+        public Task<ContactAllData> Details(int contactId) => _contactsService.GetDetails(contactId);
 
-        [HttpGet("[action]")]
-        public Task<IEnumerable<ContactListItem>> List() => _contactsService.GetList();
+        [HttpPost("[action]")]
+        public Task<IEnumerable<ContactListItem>> List(GetContactListRequest r) => 
+            _contactsService.GetList(r);
 
         [HttpDelete("[action]/{contactId}")]
         public void Delete(int contactId)
@@ -29,13 +30,13 @@ namespace PhoneBook.Web.Controllers
         }
 
         [HttpPost("[action]")]
-        public void Post(NewContactArgs args)
+        public void Post(ContactAllData c)
         {
 
         }
 
         [HttpPut("[action]")]
-        public void Patch(ContactDetails cd)
+        public void Put(ContactAllData c)
         {
 
         }

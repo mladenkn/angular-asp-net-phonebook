@@ -20,7 +20,7 @@ namespace PhoneBook.DAL
             _mapper = mapper;
         }
 
-        public async Task<ContactDetails> GetDetails(int contactId)
+        public async Task<ContactAllData> GetDetails(int contactId)
         {
             var contact = await _dbContext.Contacts
                 .Include(c => c.Emails)
@@ -28,10 +28,10 @@ namespace PhoneBook.DAL
                 .Include(c => c.PhoneNumbers)
                 .FirstOrDefaultAsync(c => c.Id == contactId);
 
-            return _mapper.Map<ContactDetails>(contact);
+            return _mapper.Map<ContactAllData>(contact);
         }
 
-        public async Task<IEnumerable<ContactListItem>> GetList()
+        public async Task<IEnumerable<ContactListItem>> GetList(GetContactListRequest r)
         {
             var models = await _dbContext.Contacts.ToListAsync();
             return models.Select(m => _mapper.Map<ContactListItem>(m));

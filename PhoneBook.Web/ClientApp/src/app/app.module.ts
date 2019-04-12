@@ -10,7 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { ContactListComponent } from './contacts-list/contact-list.component';
-import { ContactComponent } from './contact-details/contact-details.component';
+import { ContactDetailsComponent } from './contact-details/contact-details.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +20,7 @@ import { ContactComponent } from './contact-details/contact-details.component';
     CounterComponent,
     FetchDataComponent,
     ContactListComponent,
-    ContactComponent
+    ContactDetailsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
