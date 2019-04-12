@@ -9,7 +9,7 @@ namespace PhoneBook.Services
     {
         Task<ContactDetails> GetDetails(int contactId);
         Task<IEnumerable<ContactListItem>> GetList();
-        Task Save(NewContactParams nc);
+        Task Save(NewContactArgs nc);
     }
 
     public class ContactsService : IContactsService
@@ -29,7 +29,7 @@ namespace PhoneBook.Services
 
         public Task<IEnumerable<ContactListItem>> GetList() => _repo.GetList();
 
-        public async Task Save(NewContactParams nc)
+        public async Task Save(NewContactArgs nc)
         {
             var dbModel = _mapper.Map<Contact>(nc);
             _unitOfWork.Add(dbModel);

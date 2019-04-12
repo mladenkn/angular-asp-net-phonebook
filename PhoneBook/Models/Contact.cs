@@ -42,7 +42,7 @@ namespace PhoneBook.Models
         public IEnumerable<long> PhoneNumbers { get; set; }
     }
     
-    public class NewContactParams
+    public class NewContactArgs
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

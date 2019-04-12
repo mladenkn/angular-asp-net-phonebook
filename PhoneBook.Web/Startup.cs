@@ -21,16 +21,19 @@ namespace PhoneBook.Web
 
         public IConfiguration Configuration { get; }
 
+        private bool _useSsr = false;
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // In production, the Angular files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/dist";
-            });
+            if (_useSsr)
+                services.AddSpaStaticFiles(configuration =>
+                {
+                    configuration.RootPath = "ClientApp/dist";
+                });
 
             services.AddEntityFrameworkInMemoryDatabase();
             services.AddDbContext<PhoneBookDbContext>(o => o.UseInMemoryDatabase("PhonebookDb"));
@@ -58,7 +61,8 @@ namespace PhoneBook.Web
             
             app.UseHttpsRedirection();
             //app.UseStaticFiles();
-            app.UseSpaStaticFiles();
+            if(_useSsr)
+                app.UseSpaStaticFiles();
 
             app.UseMvc(routes =>
             {
@@ -67,18 +71,19 @@ namespace PhoneBook.Web
                     template: "{controller}/{action=Index}/{id?}");
             });
 
-            app.UseSpa(spa =>
-            {
-                 // To learn more about options for serving an Angular SPA from ASP.NET Core,
-                 // see https://go.microsoft.com/fwlink/?linkid=864501
-
-                spa.Options.SourcePath = "ClientApp";
-
-                if (env.IsDevelopment())
+            if (_useSsr)
+                app.UseSpa(spa =>
                 {
-                    spa.UseAngularCliServer(npmScript: "start");
-                }
-            });
+                     // To learn more about options for serving an Angular SPA from ASP.NET Core,
+                     // see https://go.microsoft.com/fwlink/?linkid=864501
+
+                    spa.Options.SourcePath = "ClientApp";
+
+                    if (env.IsDevelopment())
+                    {
+                        spa.UseAngularCliServer(npmScript: "start");
+                    }
+                });
         }
     }
 }

@@ -32,7 +32,7 @@ namespace PhoneBook
                 ;
 
 
-            CreateMap<NewContactParams, Contact>()
+            CreateMap<NewContactArgs, Contact>()
 
                 .ForMember(c => c.Id, config => config.Ignore())
 
