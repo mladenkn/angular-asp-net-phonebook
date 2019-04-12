@@ -24,21 +24,12 @@ namespace PhoneBook.Web.Controllers
             _contactsService.GetList(r);
 
         [HttpDelete("[action]/{contactId}")]
-        public void Delete(int contactId)
-        {
-
-        }
+        public Task Delete(int contactId) => _contactsService.Delete(contactId);
 
         [HttpPost("[action]")]
-        public void Post(ContactAllData c)
-        {
-
-        }
+        public Task Post(ContactAllData c) => _contactsService.Save(c);
 
         [HttpPut("[action]")]
-        public void Put(ContactAllData c)
-        {
-
-        }
+        public void Put(ContactAllData c) => _contactsService.Update(c);
     }
 }

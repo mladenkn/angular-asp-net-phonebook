@@ -9,7 +9,9 @@ namespace PhoneBook.Services
     {
         Task<ContactAllData> GetDetails(int contactId);
         Task<IEnumerable<ContactListItem>> GetList(GetContactListRequest r);
-        Task Save(ContactAllData nc);
+        Task Save(ContactAllData c);
+        Task Delete(int contactId);
+        void Update(ContactAllData c);
     }
 
     public class ContactsService : IContactsService
@@ -29,11 +31,21 @@ namespace PhoneBook.Services
 
         public Task<IEnumerable<ContactListItem>> GetList(GetContactListRequest r) => _repo.GetList(r);
 
-        public async Task Save(ContactAllData nc)
+        public async Task Save(ContactAllData c)
         {
-            var dbModel = _mapper.Map<Contact>(nc);
+            var dbModel = _mapper.Map<Contact>(c);
             _unitOfWork.Add(dbModel);
             await _unitOfWork.PersistChanges();
+        }
+
+        public Task Delete(int contactId)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Update(ContactAllData c)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
