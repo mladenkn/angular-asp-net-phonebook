@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PhoneBook.Models
 {
-    public class Contact
+    public class Contact : IDeletable
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -12,6 +12,8 @@ namespace PhoneBook.Models
         public IEnumerable<ContactEmail> Emails { get; set; }
         public IEnumerable<ContactTag> Tags { get; set; }
         public IEnumerable<ContactPhoneNumber> PhoneNumbers { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 
     public class ContactEmail

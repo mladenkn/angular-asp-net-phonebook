@@ -38,9 +38,11 @@ namespace PhoneBook.Services
             await _unitOfWork.PersistChanges();
         }
 
-        public Task Delete(int contactId)
+        public async Task Delete(int contactId)
         {
-            throw new System.NotImplementedException();
+            var m = await _repo.GetOne(contactId);
+            _unitOfWork.Delete(m);
+            await _unitOfWork.PersistChanges();
         }
 
         public void Update(ContactAllData c)

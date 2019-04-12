@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace PhoneBook.DAL
 {
@@ -21,6 +20,12 @@ namespace PhoneBook.DAL
         public void Update(object m) => _dbContext.Update(m);
 
         public void Delete(object m) => _dbContext.Remove(m);
+
+        public void Delete(IDeletable m)
+        {
+            m.IsDeleted = true;
+            _dbContext.Update(m);
+        }
 
         public async Task PersistChanges() => await _dbContext.SaveChangesAsync();
     }
