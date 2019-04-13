@@ -1,16 +1,6 @@
 <ul>
     <li *ngFor="let contact of contacts">
-
-        <div *ngIf="contactDetails; then showDetails else dontShowDetails"></div>
-        
-        <ng-template #showDetails>
-            <contact-details [contact]="contactDetails"></contact-details>
-        </ng-template>
-        
-        <ng-template #dontShowDetails>
-            <span class="contact-name">{{ contact.firstName + " " + contact.lastName }}</span>               
-            <button class="contact-btn" (click)="showContactDetails()">Details</button>
-        </ng-template>
-
+        <span class="contact-name">{{ contact.firstName + " " + contact.lastName }}</span>               
+        <button class="contact-btn" (click)="showContactDetails()">Details</button>
     </li>
 </ul>
