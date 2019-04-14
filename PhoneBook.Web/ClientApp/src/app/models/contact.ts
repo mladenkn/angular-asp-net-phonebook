@@ -1,10 +1,8 @@
-import { Address } from "./index";
-
 export interface ContactDetails {
     id: number
     firstName: string
     lastName: string
-    address: Address
+    tags: string[]
     phoneNumbers: number[]
     emails: string[]
 }

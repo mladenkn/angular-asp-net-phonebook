@@ -1,2 +1,29 @@
-Contact editor for {{contact.firstName}}
-<button (click)="triggerWantsoFinishEditing()">Save</button>
+<!-- <div class="form-group">
+    <label for="firstName">First name</label>
+    <input value="{{editedContact.firstName}}" class="form-input" id="firstName"/>
+</div>
+
+<div class="form-group">
+    <label for="lastName">Last name</label>
+    <input value="{{editedContact.lastName}}" class="form-input" id="lastName"/>
+</div> -->
+
+<form [formGroup]="form">
+
+    <label class="form-element">
+        <span class="form-element-label">First name:</span>
+        <input class="form-element-input" formControlName="firstName"/>
+    </label>
+    
+    <label class="form-element">
+        <span class="form-element-label">Last name:</span>
+        <input class="form-element-input" formControlName="lastName"/>
+    </label>
+       
+    <label class="form-element">
+        <span class="form-element-label">Emails:</span>
+        <textarea class="form-element-input" formControlName="emails"></textarea>
+    </label>
+    
+    <button (click)="triggerWantsToFinishEditing()" type="button">Save</button>
+</form>
