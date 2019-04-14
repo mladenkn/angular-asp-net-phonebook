@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ContactListItem } from '../models/contact';
 import { ContactService } from '../contact.service';
 
@@ -7,15 +7,13 @@ import { ContactService } from '../contact.service';
   templateUrl: './contact-list.component.html',
   styleUrls: ['./contact-list.component.css']
 })
-export class ContactListComponent {
+export class ContactListComponent implements OnInit {
 
   contacts: ContactListItem[]
 
-  constructor(contactService: ContactService){
-    
-  }
+  constructor(private contactService: ContactService){}
 
-  showContactDetails(){
-    
+  ngOnInit(){
+    this.contactService.getList().subscribe(r => this.contacts = r)
   }
 }

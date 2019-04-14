@@ -1,18 +1,21 @@
-import { Component, Input} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ContactDetails } from '../models/contact';
 import { ContactService } from '../contact.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'contact-details',
   templateUrl: './contact-details.component.html',
   styleUrls: ['./contact-details.component.css']
 })
-export class ContactDetailsComponent {
+export class ContactDetailsComponent implements OnInit {
 
-  @Input() contactId: number
   contact: ContactDetails
 
-  constructor(contactService: ContactService){
-    contactService.getDetails(this.contactId).subscribe(r => this.contact = r, console.error)
+  constructor(private contactService: ContactService, private route: ActivatedRoute){}
+  
+  ngOnInit(): void {
+    const contactId = +this.route.snapshot.paramMap.get("id");
+    this.contactService.getDetails(contactId).subscribe(r => this.contact = r, console.error);
   }
 }

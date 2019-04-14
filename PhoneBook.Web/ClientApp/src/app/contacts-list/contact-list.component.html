@@ -1,6 +1,6 @@
 <ul>
     <li *ngFor="let contact of contacts">
         <span class="contact-name">{{ contact.firstName + " " + contact.lastName }}</span>               
-        <button class="contact-btn" (click)="showContactDetails()">Details</button>
+        <a routerLink="/contact/{{contact.id}}">Details</a>
     </li>
 </ul>

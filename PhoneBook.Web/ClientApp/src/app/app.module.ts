@@ -31,7 +31,7 @@ import { ContactDetailsComponent } from './contact-details/contact-details.compo
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'contacts', component: ContactListComponent },
-      { path: 'contact/:contactId', component: ContactDetailsComponent },
+      { path: 'contact/:id', component: ContactDetailsComponent },
     ])
   ],
   providers: [],
