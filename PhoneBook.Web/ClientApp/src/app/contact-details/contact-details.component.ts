@@ -19,4 +19,13 @@ export class ContactDetailsComponent implements OnInit {
     const contactId = +this.route.snapshot.paramMap.get("id");
     this.contactService.getDetails(contactId).subscribe(r => this.contact = r, console.error);
   }
+
+  wantsToEdit(){
+    this.mode = "edit"
+  }
+
+  wantsToFinishEditing(){
+    console.log("završava editiranje")
+    this.mode = "readonly"
+  }
 }

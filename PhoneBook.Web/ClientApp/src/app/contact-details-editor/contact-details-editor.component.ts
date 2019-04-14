@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { ContactDetails } from "../models/contact";
 
 @Component({
@@ -9,8 +9,9 @@ import { ContactDetails } from "../models/contact";
 export class ContactDetailsEditor {
 
   @Input() contact: ContactDetails
+  @Output() wantsToFinishEditing = new EventEmitter<void>();
 
-  save(){
-    console.log("oce završit editiranje")
+  triggerWantsoFinishEditing(){
+    this.wantsToFinishEditing.emit()
   }
 }

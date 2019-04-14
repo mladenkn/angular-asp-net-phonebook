@@ -12,7 +12,7 @@ li .contact-name {
     display: inline-block;
 }
 
-li .contact-btn {
+.some-btn {
     padding: 0px 3px;
     font-size: 14.5px;
 }

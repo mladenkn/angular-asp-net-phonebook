@@ -1,7 +1,6 @@
 <div *ngIf="contact">
-    <contact-details-readonly *ngIf="mode == 'readonly'" [contact]="contact">        
+    <contact-details-readonly *ngIf="mode == 'readonly'" (wantsToEdit)="wantsToEdit($event)" [contact]="contact">        
     </contact-details-readonly>
-    <br/>
-    <contact-details-editor *ngIf="mode == 'edit'" [contact]="contact">
+    <contact-details-editor *ngIf="mode == 'edit'" (wantsToFinishEditing)="wantsToFinishEditing($event)" [contact]="contact">
     </contact-details-editor>
 </div>

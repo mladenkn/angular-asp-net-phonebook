@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, EventEmitter, Output } from "@angular/core";
 import { ContactDetails } from "../models/contact";
 
 @Component({
@@ -9,8 +9,9 @@ import { ContactDetails } from "../models/contact";
 export class ContactDetailsReadonly {
   
   @Input() contact: ContactDetails
+  @Output() wantsToEdit = new EventEmitter<void>();
 
-  edit(){
-    console.log("oce editirat")
+  triggerWantsToEdit(){
+    this.wantsToEdit.emit()
   }
 }
