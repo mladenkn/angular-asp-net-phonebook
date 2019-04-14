@@ -21,13 +21,36 @@ export class ContactDetailsEditor implements OnInit {
     this.form = fb.group({
       firstName: contact.firstName,
       lastName: contact.lastName,
-      emails: contact.emails.join(',\n')
+      emails: fb.array(
+        contact.emails.map(e => fb.control(e))
+      ),
+      tags: fb.array(
+        contact.tags.map(e => fb.control(e))
+      ),
+      phoneNumbers: fb.array(
+        contact.phoneNumbers.map(e => fb.control(e))
+      )
     });
   }
 
+  extractInput(){
+    const {form} = this;
+    return {
+      firstName: form.get("firstName").value as string,
+      lastName: form.get("lastName").value as string,
+      emails: (form.get("emails") as FormArray).controls.map(e => e.value as string),
+      tags: (form.get("tags") as FormArray).controls.map(e => e.value as string),
+      phoneNumbers: (form.get("phoneNumbers") as FormArray).controls.map(e => e.value as number)
+    }
+  }
+
   triggerWantsToFinishEditing(){
-    const emailsString = this.form.get('emails').value as string
-    const emailsArray = emailsString.split(",\n")
-    console.log(emailsArray)
+    const input = this.extractInput();
+    this.wantsToFinishEditing.emit({...input, id: this.contact.id});
+  }
+
+  addArrayItem(arrayName: string){
+    const array = this.form.get(arrayName) as FormArray;
+    array.push(this.fb.control(''));
   }
 }

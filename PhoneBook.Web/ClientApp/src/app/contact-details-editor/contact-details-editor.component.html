@@ -1,13 +1,3 @@
-<!-- <div class="form-group">
-    <label for="firstName">First name</label>
-    <input value="{{editedContact.firstName}}" class="form-input" id="firstName"/>
-</div>
-
-<div class="form-group">
-    <label for="lastName">Last name</label>
-    <input value="{{editedContact.lastName}}" class="form-input" id="lastName"/>
-</div> -->
-
 <form [formGroup]="form">
 
     <label class="form-element">
@@ -19,11 +9,37 @@
         <span class="form-element-label">Last name:</span>
         <input class="form-element-input" formControlName="lastName"/>
     </label>
-       
-    <label class="form-element">
-        <span class="form-element-label">Emails:</span>
-        <textarea class="form-element-input" formControlName="emails"></textarea>
-    </label>
+        
+    <div formArrayName="emails" class="form-element form-array-element">
+        <span class="form-element-label">Emails:</span> 
+        <div class="form-element-array-input">            
+            <div *ngFor="let item of form.get('emails').controls; let i=index;">
+                <input [formControlName]="i" class="form-element-array-input-item"/>
+            </div>
+        </div>
+        <button (click)="addArrayItem('emails')" class="form-btn">Add email</button>
+    </div>
+        
+    <div formArrayName="tags" class="form-element form-array-element">
+        <span class="form-element-label">Tags:</span> 
+        <div class="form-element-array-input">            
+            <div *ngFor="let item of form.get('tags').controls; let i=index;">
+                <input [formControlName]="i" class="form-element-array-input-item"/>
+            </div>
+        </div>
+        <button (click)="addArrayItem('tags')" class="form-btn">Add tag</button>
+    </div>
+        
+    <div formArrayName="phoneNumbers" class="form-element form-array-element">
+        <span class="form-element-label">Phone numbers:</span> 
+        <div class="form-element-array-input">            
+            <div *ngFor="let item of form.get('phoneNumbers').controls; let i=index;">
+                <input [formControlName]="i" class="form-element-array-input-item"/>
+            </div>
+        </div>
+        <button (click)="addArrayItem('phoneNumbers')" class="form-btn">Add phone number</button>
+    </div>
     
-    <button (click)="triggerWantsToFinishEditing()" type="button">Save</button>
+    <button (click)="triggerWantsToFinishEditing()" type="button" class="form-btn form-save-btn">Save</button>
+
 </form>

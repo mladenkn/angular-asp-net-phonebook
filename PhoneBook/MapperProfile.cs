@@ -22,13 +22,13 @@ namespace PhoneBook
 
                 .ForMember(c => c.PhoneNumbers,
                     config => config.MapFrom(cd => cd.PhoneNumbers.Select(
-                        pn => new ContactPhoneNumber { PhoneNumber = pn })))
+                        pn => new ContactPhoneNumber { PhoneNumber = pn, ContactId = cd.Id })))
 
                 .ForMember(c => c.Emails, config => config.MapFrom(cd => cd.Emails.Select(
-                    e => new ContactEmail { Email = e })))
+                    e => new ContactEmail { Email = e, ContactId = cd.Id })))
 
                 .ForMember(c => c.Tags, config => config.MapFrom(cd => cd.Tags.Select(
-                    t => new ContactTag { Tag = t })))
+                    t => new ContactTag { Tag = t, ContactId = cd.Id })))
                 ;
         }
     }

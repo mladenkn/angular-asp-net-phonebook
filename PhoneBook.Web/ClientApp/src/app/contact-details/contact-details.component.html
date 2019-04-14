@@ -1,3 +1,5 @@
+<a routerLink="/contacts">To list</a>
+
 <div *ngIf="contact">
     <contact-details-readonly *ngIf="mode == 'readonly'" (wantsToEdit)="wantsToEdit($event)" [contact]="contact">        
     </contact-details-readonly>

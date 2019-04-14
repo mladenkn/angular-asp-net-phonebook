@@ -24,7 +24,7 @@ namespace PhoneBook.Models
 
     public class ContactTag
     {
-        public int Id { get; set; }
+        public int ContactId { get; set; }
         public string Tag { get; set; }
     }
 

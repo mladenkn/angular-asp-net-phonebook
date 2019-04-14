@@ -24,8 +24,8 @@ export class ContactDetailsComponent implements OnInit {
     this.mode = "edit"
   }
 
-  wantsToFinishEditing(){
-    console.log("završava editiranje")
-    this.mode = "readonly"
+  wantsToFinishEditing(data: ContactDetails){
+    this.contactService.update(data)
+      .subscribe(r => console.log('Contact updated'), console.error)
   }
 }

@@ -25,6 +25,10 @@ export class ContactService {
             }
         })
     }
+
+    update(contact: ContactDetails){
+        return this.http.put(this.baseUrl + "Put", null, {params: contact as any})
+    }
 }
     
 // http.get<ContactDetails>(baseUrl + "Contacts/Details/1")
@@ -49,15 +53,6 @@ export class ContactService {
 //     emails: ["mail1", "mail2"]
 //   }
 // }) 
-// .subscribe(console.log, console.error);
-
-// http.put(baseUrl + "Contacts/Put", null, {
-//   params: {
-//     id: '1',
-//     firstName: "sdfsdf",
-//     emails: ["mail1", "mail2"],
-//   }
-// })
 // .subscribe(console.log, console.error);
 
 // http.post<ContactListItem[]>(baseUrl + 'Contacts/List', null, {
