@@ -11,6 +11,8 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { ContactListComponent } from './contacts-list/contact-list.component';
 import { ContactDetailsComponent } from './contact-details/contact-details.component';
+import { ContactDetailsEditor } from './contact-details-editor/contact-details-editor.component';
+import { ContactDetailsReadonly } from './contact-details-readonly/contact-details-readonly.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { ContactDetailsComponent } from './contact-details/contact-details.compo
     CounterComponent,
     FetchDataComponent,
     ContactListComponent,
-    ContactDetailsComponent
+    ContactDetailsComponent,
+    ContactDetailsEditor,
+    ContactDetailsReadonly,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
