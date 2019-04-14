@@ -1,4 +1,5 @@
-import { Component } from "@angular/core";
+import { Component, Input } from "@angular/core";
+import { ContactDetails } from "../models/contact";
 
 @Component({
     selector: 'contact-details-editor',
@@ -7,4 +8,9 @@ import { Component } from "@angular/core";
   })
 export class ContactDetailsEditor {
 
+  @Input() contact: ContactDetails
+
+  save(){
+    console.log("oce završit editiranje")
+  }
 }

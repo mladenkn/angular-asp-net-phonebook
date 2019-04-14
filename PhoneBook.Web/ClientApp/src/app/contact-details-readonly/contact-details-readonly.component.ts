@@ -1,4 +1,5 @@
-import { Component } from "@angular/core";
+import { Component, Input } from "@angular/core";
+import { ContactDetails } from "../models/contact";
 
 @Component({
     selector: 'contact-details-readonly',
@@ -6,5 +7,10 @@ import { Component } from "@angular/core";
     styleUrls: ['./contact-details-readonly.component.css']
   })
 export class ContactDetailsReadonly {
+  
+  @Input() contact: ContactDetails
 
+  edit(){
+    console.log("oce editirat")
+  }
 }

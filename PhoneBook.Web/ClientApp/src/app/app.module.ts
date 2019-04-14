@@ -31,11 +31,13 @@ import { ContactDetailsReadonly } from './contact-details-readonly/contact-detai
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
+      { path: '', component: ContactListComponent, pathMatch: 'full' },
       { path: 'contacts', component: ContactListComponent },
       { path: 'contact/:id', component: ContactDetailsComponent },
+      
+      { path: 'home', component: HomeComponent, pathMatch: 'full' },
+      { path: 'counter', component: CounterComponent },
+      { path: 'fetch-data', component: FetchDataComponent },
     ])
   ],
   providers: [],

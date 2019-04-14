@@ -11,6 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 export class ContactDetailsComponent implements OnInit {
 
   contact: ContactDetails
+  mode: "readonly" | "edit" = "readonly"
 
   constructor(private contactService: ContactService, private route: ActivatedRoute){}
   
