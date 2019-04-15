@@ -40,7 +40,37 @@ namespace PhoneBook
                         4523462345, 56756734523
                     },
                     Tags = new[] {"tag1", "tag3"}
-                }
+                },
+
+                new ContactAllData
+                {
+                    FirstName = "Ime1",
+                    LastName = "Prezime1",
+                    Emails = new[]
+                    {
+                        "mail4@gmail.com"
+                    },
+                    PhoneNumbers = new[]
+                    {
+                        34545673456
+                    },
+                    Tags = new[] {"tag1", "tag3", "tag4"}
+                },
+
+                new ContactAllData
+                {
+                    FirstName = "Ime2",
+                    LastName = "Prezime2",
+                    Emails = new[]
+                    {
+                        "mail4@gmail.com"
+                    },
+                    PhoneNumbers = new[]
+                    {
+                        34545673456
+                    },
+                    Tags = new[] {"tag2", "tag3", "tag5"}
+                },
             };
 
             foreach (var c in contacts)

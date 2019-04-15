@@ -1,6 +1,16 @@
-<ul>
-    <li *ngFor="let contact of contacts">
-        <span class="contact-name">{{ contact.firstName + " " + contact.lastName }}</span>               
-        <a routerLink="/contact/{{contact.id}}">Details</a>
-    </li>
-</ul>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Tags</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let c of contacts">
+            <td>{{ c.firstName + " " + c.lastName }}</td>
+            <td>tag1, tag2</td>
+            <td><a routerLink="/contact/{{c.id}}">Details</a></td>
+        </tr>    
+    </tbody>
+</table>

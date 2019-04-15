@@ -9,7 +9,7 @@ import { FormGroup, FormBuilder, FormArray } from "@angular/forms";
   })
 export class ContactDetailsEditor implements OnInit {
 
-  @Input() contact: ContactDetails;
+  @Input() contact?: ContactDetails;
   @Output() wantsToFinishEditing = new EventEmitter<ContactDetails>();
 
   form: FormGroup
@@ -19,8 +19,8 @@ export class ContactDetailsEditor implements OnInit {
   ngOnInit() {
     const {contact, fb} = this
     this.form = fb.group({
-      firstName: contact.firstName,
-      lastName: contact.lastName,
+      firstName: contact ? contact.firstName : '',
+      lastName: contact ? contact.lastName : '',
       emails: fb.array(
         contact.emails.map(e => fb.control(e))
       ),

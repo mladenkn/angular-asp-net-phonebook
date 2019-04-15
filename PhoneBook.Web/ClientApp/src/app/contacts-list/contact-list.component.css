@@ -1,18 +1,3 @@
-ul {
-    list-style-type: none;
-}
-
-li {
-    margin-bottom: 10px;
-}
-
-li .contact-name {
-    margin-right: 10px;
-    width: 150px;
-    display: inline-block;
-}
-
-.some-btn {
-    padding: 0px 3px;
-    font-size: 14.5px;
+table {
+    width: 500px;
 }

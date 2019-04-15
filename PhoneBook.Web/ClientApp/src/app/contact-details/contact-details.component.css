@@ -1,5 +1,8 @@
 a {
     display: inline-block;
     font-size: 1.1rem;
-    margin-bottom: 10px;
+}
+
+.page-content {
+    margin: 25px 0 0 15px;
 }
