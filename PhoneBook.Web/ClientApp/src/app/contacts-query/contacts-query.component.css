@@ -1,5 +1,6 @@
 form {
     width: 300px;
+    position: relative;
 }
 
 .form-entry {
@@ -10,7 +11,7 @@ form {
     display: block;
 }
 
-.form-last-btn {
-    margin-top: 35px;
-    float: right;
-} 
+.form-submit-btn {  
+    position: absolute;
+    right: 0px;
+}

@@ -1,5 +1,6 @@
 form {
     width: 320px;
+    position: relative;
 }
 
 .form-text-entry {
@@ -17,6 +18,8 @@ form {
 
 .form-array--add-btn {
     padding: 0px 11px;
+    position: absolute;
+    right: 20px;
 }
 
 .form-array--heading {
@@ -28,6 +31,16 @@ form {
     margin-bottom: -8px;
 }
 
-.form-last-btn {
+.form-edit-btn {
+    padding: 0px 11px;
+    margin-top: 5px;
+    position: absolute;
+    right: 50px;
+}
+
+.form-save-btn {
+    padding: 0px 11px;
     margin-top: 35px;
-} 
+    position: absolute;
+    right: 20px;
+}

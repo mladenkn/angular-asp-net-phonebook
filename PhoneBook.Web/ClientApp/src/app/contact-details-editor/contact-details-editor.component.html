@@ -81,25 +81,19 @@
             </button>
         </div>
     </div>
-    
+
     <div *ngIf="mode != 'Readonly'"> 
-        <button 
-            mat-raised-button
-            color="primary"
-            (click)="triggerWantsToFinishEditing()"
-            class="form-last-btn">
+        <button mat-raised-button color="primary"
+            (click)="triggerWantsToFinishEditing()" class="form-save-btn">
             Save
         </button>   
     </div>      
     
     <div *ngIf="mode == 'Readonly'"> 
-        <button 
-            mat-raised-button
-            color="primary"
-            (click)="triggerWantsToEdit()"
-            class="form-last-btn">
+        <button mat-raised-button color="primary"
+            (click)="triggerWantsToEdit()" class="form-edit-btn">
             Edit
         </button>   
-    </div>     
+    </div>
 
 </form>
