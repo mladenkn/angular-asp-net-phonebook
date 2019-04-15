@@ -15,7 +15,7 @@ import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { ContactListComponent } from './contacts-list/contact-list.component';
 import { ContactDetailsComponent } from './contact-details/contact-details.component';
-import { ContactDetailsEditor as ContactDetailsEditorComponent } from './contact-details-editor/contact-details-editor.component';
+import { ContactDetailsEditorComponent as ContactDetailsEditorComponent } from './contact-details-editor/contact-details-editor.component';
 import { ContactDetailsReadonly } from './contact-details-readonly/contact-details-readonly.component';
 
 @NgModule({

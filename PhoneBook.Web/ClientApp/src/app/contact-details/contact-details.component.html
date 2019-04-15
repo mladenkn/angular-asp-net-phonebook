@@ -2,9 +2,9 @@
 
 <div class="page-content">
     <div *ngIf="contact">
-        <contact-details-readonly *ngIf="mode == 'readonly'" (wantsToEdit)="wantsToEdit($event)" [contact]="contact">        
-        </contact-details-readonly>
-        <contact-details-editor *ngIf="mode == 'edit'" (wantsToFinishEditing)="wantsToFinishEditing($event)" [contact]="contact">
+        <contact-details-editor mode="{{mode}}" [contact]="contact"
+        (wantsToEdit)="wantsToEdit($event)"
+        (wantsToFinishEditing)="wantsToFinishEditing($event)">
         </contact-details-editor>
     </div>
 </div>

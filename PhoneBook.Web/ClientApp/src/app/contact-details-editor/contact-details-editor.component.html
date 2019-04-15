@@ -2,28 +2,37 @@
     
     <div class="form-text-entry">
         <mat-form-field>
-            <input matInput placeholder="First name" formControlName="firstName"/>
+            <input matInput placeholder="First name" formControlName="firstName"
+                readonly="mode == 'Readonly'"/>
         </mat-form-field>
     </div>
 
     <div class="form-text-entry">
         <mat-form-field>
-            <input matInput placeholder="Last name" formControlName="lastName"/>
+            <input matInput placeholder="Last name" formControlName="lastName"
+                readonly="mode == 'Readonly'"/>
         </mat-form-field>
     </div>
 
     <div class="form-text-entry">
         <mat-form-field class="example-chip-list">
+            <div *ngIf="mode == 'Readonly'">
+                <h6 class="form-array--heading">Tags:</h6>
+            </div>
             <mat-chip-list #chipList>
                 <mat-chip *ngFor="let t of getArray('tags');" [removable]="removable">
-                {{t.value}}
-                <mat-icon matChipRemove (click)="removeTag(t.value)">cancel</mat-icon>
+                    {{t.value}}       
+                    <div *ngIf="mode != 'Readonly'">             
+                        <mat-icon matChipRemove (click)="removeTag(t.value)">cancel</mat-icon>
+                    </div>
                 </mat-chip>
-                <input placeholder="Tags"
+                <div *ngIf="mode != 'Readonly'"> 
+                    <input placeholder="Tags"
                         [matChipInputFor]="chipList"
                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                         [matChipInputAddOnBlur]="addOnBlur"
                         (matChipInputTokenEnd)="addTag($event)">
+                </div>
             </mat-chip-list>
         </mat-form-field>
     </div>
@@ -38,13 +47,15 @@
                     </mat-form-field>
                 </div>
             </div>
-            <button 
-                mat-raised-button
-                color="primary" 
-                (click)="pushToArray('emails')" 
-                class="form-array--add-btn">
-                Add email
-            </button>
+            <div *ngIf="mode != 'Readonly'"> 
+                <button 
+                    mat-raised-button
+                    color="primary" 
+                    (click)="pushToArray('emails')" 
+                    class="form-array--add-btn">
+                    Add email
+                </button>
+            </div>
         </div>
     </div>
 
@@ -58,22 +69,36 @@
                     </mat-form-field>
                 </div>        
             </div>
-            <button 
-            mat-raised-button 
-                color="primary" 
-                (click)="pushToArray('phoneNumbers')" 
-                class="form-array--add-btn">
-                Add phone number
-            </button>
+            <div *ngIf="mode != 'Readonly'"> 
+                <button 
+                mat-raised-button 
+                    color="primary" 
+                    (click)="pushToArray('phoneNumbers')" 
+                    class="form-array--add-btn">
+                    Add phone number
+                </button>
+            </div>
         </div>
     </div>
     
-    <button 
-        mat-raised-button
-        color="primary"
-        (click)="triggerWantsToFinishEditing()"
-        class="form-save-btn">
-        Save
-    </button>            
+    <div *ngIf="mode != 'Readonly'"> 
+        <button 
+            mat-raised-button
+            color="primary"
+            (click)="triggerWantsToFinishEditing()"
+            class="form-last-btn">
+            Save
+        </button>   
+    </div>      
+    
+    <div *ngIf="mode == 'Readonly'"> 
+        <button 
+            mat-raised-button
+            color="primary"
+            (click)="triggerWantsToEdit()"
+            class="form-last-btn">
+            Edit
+        </button>   
+    </div>     
 
 </form>

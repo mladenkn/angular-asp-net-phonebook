@@ -6,16 +6,22 @@ import {COMMA, ENTER} from '@angular/cdk/keycodes';
 
 import { ContactDetails } from "../models/contact";
 
+export enum ContactDetailsEditorMode {
+  Readonly="Readonly", Edit="Edit"
+}
 
 @Component({
     selector: 'contact-details-editor',
     templateUrl: './contact-details-editor.component.html',
     styleUrls: ['./contact-details-editor.component.css']
   })
-export class ContactDetailsEditor implements OnInit {
+export class ContactDetailsEditorComponent implements OnInit {
 
-  @Input() contact?: ContactDetails;
-  @Output() wantsToFinishEditing = new EventEmitter<ContactDetails>();
+  @Input() readonly contact?: ContactDetails;
+  @Input() readonly mode: ContactDetailsEditorMode
+
+  @Output() readonly wantsToFinishEditing = new EventEmitter<ContactDetails>();
+  @Output() readonly wantsToEdit = new EventEmitter<void>();
 
   form: FormGroup
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
@@ -30,13 +36,13 @@ export class ContactDetailsEditor implements OnInit {
       firstName: contact ? contact.firstName : '',
       lastName: contact ? contact.lastName : '',
       emails: fb.array(
-        contact.emails.map(e => fb.control(e))
+        (contact ? contact.emails: []).map(e => fb.control(e))
       ),
       tags: fb.array(
-        contact.tags.map(e => fb.control(e))
+        (contact ? contact.tags: []).map(e => fb.control(e))
       ),
       phoneNumbers: fb.array(
-        contact.phoneNumbers.map(e => fb.control(e.toString()))
+        (contact ? contact.phoneNumbers: []).map(e => fb.control(e.toString()))
       )
     });
   }
@@ -84,5 +90,9 @@ export class ContactDetailsEditor implements OnInit {
   triggerWantsToFinishEditing(){
     const input = this.extractInput();
     this.wantsToFinishEditing.emit({...input, id: this.contact.id});
+  }
+
+  triggerWantsToEdit(){
+    this.wantsToEdit.emit()
   }
 }
