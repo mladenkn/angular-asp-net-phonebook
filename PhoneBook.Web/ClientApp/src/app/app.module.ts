@@ -5,6 +5,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
 import { MatGridListModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -33,6 +35,8 @@ import { ContactDetailsReadonly } from './contact-details-readonly/contact-detai
     MatInputModule,
     MatButtonModule,
     MatGridListModule,
+    MatChipsModule,
+    MatIconModule,
     BrowserAnimationsModule,
     RouterModule.forRoot([
       { path: '', component: ContactListComponent, pathMatch: 'full' },

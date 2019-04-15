@@ -12,6 +12,21 @@
         </mat-form-field>
     </div>
 
+    <div class="form-text-entry">
+        <mat-form-field class="example-chip-list">
+            <mat-chip-list #chipList>
+                <mat-chip *ngFor="let t of getArray('tags');" [removable]="removable"">
+                {{t.value}} <mat-icon matChipRemove (click)="removeTag(t.value)">cancel</mat-icon>
+                </mat-chip>
+                <input placeholder="Tags"
+                        [matChipInputFor]="chipList"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                        [matChipInputAddOnBlur]="addOnBlur"
+                        (matChipInputTokenEnd)="addTag($event)">
+            </mat-chip-list>
+        </mat-form-field>
+    </div>
+
     <div class="form-array-entry">
         <h6 class="form-array--heading">Emails:</h6>
         <div class="form-array--body">
@@ -28,26 +43,6 @@
                 (click)="pushToArray('emails')" 
                 class="form-array--add-btn">
                 Add email
-            </button>
-        </div>
-    </div>
-    
-    <div class="form-array-entry">
-        <h6 class="form-array--heading">Tags:</h6>
-        <div class="form-array--body">
-            <div formArrayName="tags">
-                <div *ngFor="let e of getArray('tags'); let i=index">
-                    <mat-form-field class="form-array--field">
-                        <input [formControlName]="i" matInput/>
-                    </mat-form-field>
-                </div>        
-            </div>
-            <button 
-                mat-raised-button
-                color="primary" 
-                (click)="pushToArray('tags')" 
-                class="form-array--add-btn">
-                Add tag
             </button>
         </div>
     </div>

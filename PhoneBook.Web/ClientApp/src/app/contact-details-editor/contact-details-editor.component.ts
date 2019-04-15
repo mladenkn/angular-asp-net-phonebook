@@ -1,6 +1,11 @@
 import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
-import { ContactDetails } from "../models/contact";
 import { FormGroup, FormBuilder, FormArray } from "@angular/forms";
+import { MatChipInputEvent } from "@angular/material";
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
+
+
+import { ContactDetails } from "../models/contact";
+
 
 @Component({
     selector: 'contact-details-editor',
@@ -13,6 +18,7 @@ export class ContactDetailsEditor implements OnInit {
   @Output() wantsToFinishEditing = new EventEmitter<ContactDetails>();
 
   form: FormGroup
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   
   constructor(private fb: FormBuilder){
     this.getArray = this.getArray.bind(this)
@@ -47,11 +53,32 @@ export class ContactDetailsEditor implements OnInit {
   }
 
   getArray(name: string){
-    return (this.form.get(name) as FormArray).controls
+    return (this.form.get(name) as FormArray).controls;
   }
 
   pushToArray(arrayName: string){
-    this.getArray(arrayName).push(this.fb.control(''))    
+    this.getArray(arrayName).push(this.fb.control(''));
+  }
+
+  removeTag(tagName: string){
+    console.log(tagName)
+    const tagsArray = this.getArray('tags');
+    const index = tagsArray.findIndex(e => {
+      console.log(e)
+      return e.value == tagName;
+    });
+    if (index >= 0) 
+      tagsArray.splice(index, 1);
+  }
+
+  addTag(e: MatChipInputEvent){
+    const {input, value} = e;
+
+    if ((value || '').trim()) 
+      this.getArray('tags').push(this.fb.control(value.trim()));    
+
+    if (input) 
+      input.value = '';
   }
 
   triggerWantsToFinishEditing(){
