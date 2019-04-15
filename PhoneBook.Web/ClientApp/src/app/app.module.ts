@@ -3,6 +3,11 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatGridListModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -25,6 +30,10 @@ import { ContactDetailsReadonly } from './contact-details-readonly/contact-detai
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
+    MatInputModule,
+    MatButtonModule,
+    MatGridListModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot([
       { path: '', component: ContactListComponent, pathMatch: 'full' },
       { path: 'contacts', component: ContactListComponent },

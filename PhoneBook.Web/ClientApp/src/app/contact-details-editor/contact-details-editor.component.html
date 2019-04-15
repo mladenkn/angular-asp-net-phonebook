@@ -1,45 +1,83 @@
 <form [formGroup]="form">
+    
+    <div class="form-text-entry">
+        <mat-form-field>
+            <input matInput placeholder="First name" formControlName="firstName"/>
+        </mat-form-field>
+    </div>
 
-    <label class="form-element">
-        <span class="form-element-label">First name:</span>
-        <input class="form-element-input" formControlName="firstName"/>
-    </label>
-    
-    <label class="form-element">
-        <span class="form-element-label">Last name:</span>
-        <input class="form-element-input" formControlName="lastName"/>
-    </label>
-        
-    <div formArrayName="emails" class="form-element form-array-element">
-        <span class="form-element-label">Emails:</span> 
-        <div class="form-element-array-input">            
-            <div *ngFor="let item of form.get('emails').controls; let i=index;">
-                <input [formControlName]="i" class="form-element-array-input-item"/>
-            </div>
-        </div>
-        <button (click)="addArrayItem('emails')" class="form-btn">Add email</button>
+    <div class="form-text-entry">
+        <mat-form-field>
+            <input matInput placeholder="Last name" formControlName="lastName"/>
+        </mat-form-field>
     </div>
-        
-    <div formArrayName="tags" class="form-element form-array-element">
-        <span class="form-element-label">Tags:</span> 
-        <div class="form-element-array-input">            
-            <div *ngFor="let item of form.get('tags').controls; let i=index;">
-                <input [formControlName]="i" class="form-element-array-input-item"/>
+
+    <div class="form-array-entry">
+        <h6 class="form-array--heading">Emails:</h6>
+        <div class="form-array--body">
+            <div formArrayName="emails" class="form-array">
+                <div *ngFor="let e of getArray('emails'); let i=index">
+                    <mat-form-field class="form-array--field">
+                        <input [formControlName]="i" matInput/>
+                    </mat-form-field>
+                </div>
             </div>
+            <button 
+                mat-raised-button
+                color="primary" 
+                (click)="pushToArray('emails')" 
+                class="form-array--add-btn">
+                Add email
+            </button>
         </div>
-        <button (click)="addArrayItem('tags')" class="form-btn">Add tag</button>
-    </div>
-        
-    <div formArrayName="phoneNumbers" class="form-element form-array-element">
-        <span class="form-element-label">Phone numbers:</span> 
-        <div class="form-element-array-input">            
-            <div *ngFor="let item of form.get('phoneNumbers').controls; let i=index;">
-                <input [formControlName]="i" class="form-element-array-input-item"/>
-            </div>
-        </div>
-        <button (click)="addArrayItem('phoneNumbers')" class="form-btn">Add phone number</button>
     </div>
     
-    <button (click)="triggerWantsToFinishEditing()" type="button" class="form-btn form-save-btn">Save</button>
+    <div class="form-array-entry">
+        <h6 class="form-array--heading">Tags:</h6>
+        <div class="form-array--body">
+            <div formArrayName="tags">
+                <div *ngFor="let e of getArray('tags'); let i=index">
+                    <mat-form-field class="form-array--field">
+                        <input [formControlName]="i" matInput/>
+                    </mat-form-field>
+                </div>        
+            </div>
+            <button 
+                mat-raised-button
+                color="primary" 
+                (click)="pushToArray('tags')" 
+                class="form-array--add-btn">
+                Add tag
+            </button>
+        </div>
+    </div>
+
+    <div class="form-array-entry">
+        <h6 class="form-array--heading">Phone numbers:</h6>
+        <div class="form-array--body">
+            <div formArrayName="phoneNumbers" class="form-array">
+                <div *ngFor="let e of getArray('phoneNumbers'); let i=index">
+                    <mat-form-field class="form-array--field">
+                        <input [formControlName]="i" matInput/>
+                    </mat-form-field>
+                </div>        
+            </div>
+            <button 
+            mat-raised-button 
+                color="primary" 
+                (click)="pushToArray('phoneNumbers')" 
+                class="form-array--add-btn">
+                Add phone number
+            </button>
+        </div>
+    </div>
+    
+    <button 
+        mat-raised-button
+        color="primary"
+        (click)="triggerWantsToFinishEditing()"
+        class="form-save-btn">
+        Save
+    </button>            
 
 </form>

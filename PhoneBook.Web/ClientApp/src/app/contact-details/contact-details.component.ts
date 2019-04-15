@@ -25,6 +25,7 @@ export class ContactDetailsComponent implements OnInit {
   }
 
   wantsToFinishEditing(data: ContactDetails){
+    console.log(data)
     this.contactService.update(data)
       .subscribe(r => console.log('Contact updated'), console.error)
   }

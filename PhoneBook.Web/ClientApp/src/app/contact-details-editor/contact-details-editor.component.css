@@ -1,9 +1,43 @@
 form {
-    display: inline-block;
-    position: relative;
+    width: 300px;
 }
 
-.form-element {
+.form-text-entry {
+    margin-bottom: 10px;
+}
+
+.form-array-entry {
+    margin-bottom: 50px;
+}
+
+.mat-form-field {
+    display: block;
+}
+
+.form-array--add-btn {
+    float: right;
+    padding: 0px 11px;
+}
+
+.form-array--heading {
+    margin-bottom: 12px;
+}
+
+.form-array--body {
+    margin-left: 10px;
+}
+
+.form-array--field {
+    margin-top: -15px;
+    margin-bottom: -8px;
+}
+
+.form-save-btn {
+    margin-top: 35px;
+    float: right;
+} 
+
+/* .form-element {
     display: block;
     margin-bottom: 8px;
 }
@@ -41,4 +75,4 @@ form {
 
 .form-save-btn {
     margin-top: 35px;
-}
+} */

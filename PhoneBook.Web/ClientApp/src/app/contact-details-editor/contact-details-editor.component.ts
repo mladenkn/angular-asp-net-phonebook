@@ -14,7 +14,9 @@ export class ContactDetailsEditor implements OnInit {
 
   form: FormGroup
   
-  constructor(private fb: FormBuilder){}
+  constructor(private fb: FormBuilder){
+    this.getArray = this.getArray.bind(this)
+  }
 
   ngOnInit() {
     const {contact, fb} = this
@@ -28,29 +30,32 @@ export class ContactDetailsEditor implements OnInit {
         contact.tags.map(e => fb.control(e))
       ),
       phoneNumbers: fb.array(
-        contact.phoneNumbers.map(e => fb.control(e))
+        contact.phoneNumbers.map(e => fb.control(e.toString()))
       )
     });
   }
 
   extractInput(){
-    const {form} = this;
+    const {form, getArray} = this;
     return {
       firstName: form.get("firstName").value as string,
       lastName: form.get("lastName").value as string,
-      emails: (form.get("emails") as FormArray).controls.map(e => e.value as string),
-      tags: (form.get("tags") as FormArray).controls.map(e => e.value as string),
-      phoneNumbers: (form.get("phoneNumbers") as FormArray).controls.map(e => e.value as number)
+      emails: getArray("emails").map(e => e.value as string),
+      tags: getArray("tags").map(e => e.value as string),
+      phoneNumbers: getArray("phoneNumbers").map(e => parseInt(e.value as string))
     }
+  }
+
+  getArray(name: string){
+    return (this.form.get(name) as FormArray).controls
+  }
+
+  pushToArray(arrayName: string){
+    this.getArray(arrayName).push(this.fb.control(''))    
   }
 
   triggerWantsToFinishEditing(){
     const input = this.extractInput();
     this.wantsToFinishEditing.emit({...input, id: this.contact.id});
-  }
-
-  addArrayItem(arrayName: string){
-    const array = this.form.get(arrayName) as FormArray;
-    array.push(this.fb.control(''));
   }
 }
