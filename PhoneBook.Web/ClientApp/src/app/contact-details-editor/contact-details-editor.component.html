@@ -43,7 +43,9 @@
             <div class="form-array--array">
                 <div *ngFor="let e of editedContact.emails; let i=index">
                     <mat-form-field class="form-array--field">
-                        <input [(ngModel)]="editedContact.emails[i]" matInput 
+                        <input 
+                            value="{{editedContact.emails[i]}}" matInput 
+                            (change)="setEmail(i, e)"
                             name="{{'email'+i}}" readonly="{{mode == 'Readonly'}}"/>
                     </mat-form-field>  
                     <button mat-icon-button *ngIf="mode != 'Readonly'" (click)="removeEmail(i)">
@@ -51,11 +53,8 @@
                     </button>
                 </div>
             </div>
-            <button *ngIf="mode != 'Readonly'"
-                mat-raised-button
-                color="primary" 
-                (click)="addEmail()" 
-                class="form-array--add-btn">
+            <button *ngIf="mode != 'Readonly'" mat-raised-button color="primary" 
+                (click)="addEmail()" class="form-array--add-btn">
                 Add email
             </button>
         </div>
@@ -67,7 +66,8 @@
             <div class="form-array--array">
                 <div *ngFor="let e of phoneNumbersInput; let i=index">
                     <mat-form-field class="form-array--field">
-                        <input [(ngModel)]="phoneNumbersInput[i]" matInput 
+                        <input value="{{phoneNumbersInput[i]}}" matInput 
+                            (change)="setPhoneNumber(i, e)"
                             name="{{'phoneNumber'+i}}" readonly="{{mode == 'Readonly'}}"/>
                     </mat-form-field>
                     <button mat-icon-button *ngIf="mode != 'Readonly'" (click)="removePhoneNumber(i)">
@@ -75,11 +75,8 @@
                     </button>
                 </div>        
             </div>
-            <button *ngIf="mode != 'Readonly'"
-                mat-raised-button 
-                color="primary" 
-                (click)="addPhoneNumber()" 
-                class="form-array--add-btn">
+            <button *ngIf="mode != 'Readonly'" mat-raised-button color="primary" 
+                (click)="addPhoneNumber()" class="form-array--add-btn">
                 Add phone number
             </button>
         </div>

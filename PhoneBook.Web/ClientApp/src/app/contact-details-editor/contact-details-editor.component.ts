@@ -47,12 +47,20 @@ export class ContactDetailsEditorComponent implements OnInit {
     this.editedContact.emails.push('');
   }
 
+  setEmail(index: number, value: string){
+    this.editedContact.emails[index] = value
+  }
+
   removeEmail(i: number){
     this.editedContact.emails.splice(i, 1)
   }
 
   addPhoneNumber(){
     this.phoneNumbersInput.push('')      
+  }
+
+  setPhoneNumber(index: number, value: string){
+    this.phoneNumbersInput[index] = value
   }
 
   removePhoneNumber(i: number){
