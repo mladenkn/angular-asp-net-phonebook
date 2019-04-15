@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ContactListItem } from '../models/contact';
+import { ContactListItem, GetContactsRequest } from '../models/contact';
 import { ContactService } from '../contact.service';
 
 @Component({
@@ -14,6 +14,10 @@ export class ContactListComponent implements OnInit {
   constructor(private contactService: ContactService){}
 
   ngOnInit(){
-    this.contactService.getList().subscribe(r => this.contacts = r)
+    this.contactService.getList().subscribe(r => this.contacts = r);
+  }
+
+  requery(request: GetContactsRequest){
+    this.contactService.getList(request).subscribe(r => this.contacts = r);
   }
 }

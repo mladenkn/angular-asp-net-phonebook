@@ -1,0 +1,57 @@
+<form>
+
+  <div class="form-entry">
+    <mat-form-field>
+        <input matInput placeholder="First name contains:" [(ngModel)]="model.firstNameSearchString" name="firstName"/>
+    </mat-form-field>
+  </div>
+  
+  <div class="form-entry">
+    <mat-form-field>
+        <input matInput placeholder="Last name contains:" [(ngModel)]="model.lastNameSearchString" name="lastName"/>
+    </mat-form-field>
+  </div>
+  
+  <div class="form-entry">
+      <mat-form-field>
+          <mat-chip-list #chipList>
+              <mat-chip *ngFor="let t of model.contactMustContainAllTags; let i=index"
+                [removable]="removable">
+                  {{t}}                  
+                  <mat-icon matChipRemove (click)="removeTag1(i)">cancel</mat-icon>
+              </mat-chip>
+              <input placeholder="Contacts will contain all of these tags:"
+                  [matChipInputFor]="chipList"
+                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                  [matChipInputAddOnBlur]="addOnBlur"
+                  (matChipInputTokenEnd)="addTag1($event)">
+          </mat-chip-list>
+      </mat-form-field>
+  </div>
+  
+  <div class="form-entry">
+    <mat-form-field>
+        <mat-chip-list #chipList2>
+            <mat-chip *ngFor="let t of model.contactMustContainSomeTags; let i=index"
+            [removable]="removable">
+                {{t}}                  
+                <mat-icon matChipRemove (click)="removeTag2(i)">cancel</mat-icon>
+            </mat-chip>
+            <input placeholder="Contacts will contain some of these tags:"
+                [matChipInputFor]="chipList2"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                [matChipInputAddOnBlur]="addOnBlur"
+                (matChipInputTokenEnd)="addTag2($event)">
+        </mat-chip-list>
+    </mat-form-field>
+  </div>
+  
+  <button 
+    mat-raised-button
+    color="primary"
+    (click)="triggerSubmit()"
+    class="form-submit-btn">
+    Run
+  </button>
+
+</form>

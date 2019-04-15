@@ -13,3 +13,10 @@ export interface ContactListItem {
     lastName: string
     tags: string[] 
 }
+
+export interface GetContactsRequest {
+    firstNameSearchString: string
+    lastNameSearchString: string
+    contactMustContainAllTags: string[]
+    contactMustContainSomeTags: string[]
+}

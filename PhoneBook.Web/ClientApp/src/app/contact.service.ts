@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
-import { ContactDetails, ContactListItem } from "./models/contact";
+import { ContactDetails, ContactListItem, GetContactsRequest } from "./models/contact";
 
 @Injectable({providedIn: "root"})
 export class ContactService {
@@ -15,14 +15,9 @@ export class ContactService {
         return this.http.get<ContactDetails>(this.baseUrl + "Details/" + contactId)
     }
 
-    getList(){
+    getList(request?: GetContactsRequest){
         return this.http.post<ContactListItem[]>(this.baseUrl + 'List', null, {
-            params: {
-                firstNameSearchString: "mla",
-                lastNameSearchString: "knez",
-                contactMustContainAllTags: ["tag1", "tag2"],
-                contactMustContainSomeTags: ["tag1", "tag3"],
-            }
+            params: request || {} as any
         })
     }
 

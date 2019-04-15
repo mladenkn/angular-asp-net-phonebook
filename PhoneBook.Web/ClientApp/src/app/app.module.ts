@@ -15,6 +15,7 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { ContactListComponent } from './contacts-list/contact-list.component';
 import { ContactDetailsComponent } from './contact-details/contact-details.component';
 import { ContactDetailsEditorComponent } from './contact-details-editor/contact-details-editor.component';
+import { ContactsQueryComponent } from './contacts-query/contacts-query.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { ContactDetailsEditorComponent } from './contact-details-editor/contact-
     ContactListComponent,
     ContactDetailsComponent,
     ContactDetailsEditorComponent,
+    ContactsQueryComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

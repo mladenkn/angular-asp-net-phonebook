@@ -1,0 +1,16 @@
+form {
+    width: 300px;
+}
+
+.form-entry {
+    margin-bottom: 10px;
+}
+
+.mat-form-field {
+    display: block;
+}
+
+.form-last-btn {
+    margin-top: 35px;
+    float: right;
+} 
