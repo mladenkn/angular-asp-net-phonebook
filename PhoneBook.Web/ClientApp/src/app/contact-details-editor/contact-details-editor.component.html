@@ -15,8 +15,9 @@
     <div class="form-text-entry">
         <mat-form-field class="example-chip-list">
             <mat-chip-list #chipList>
-                <mat-chip *ngFor="let t of getArray('tags');" [removable]="removable"">
-                {{t.value}} <mat-icon matChipRemove (click)="removeTag(t.value)">cancel</mat-icon>
+                <mat-chip *ngFor="let t of getArray('tags');" [removable]="removable">
+                {{t.value}}
+                <mat-icon matChipRemove (click)="removeTag(t.value)"></mat-icon>
                 </mat-chip>
                 <input placeholder="Tags"
                         [matChipInputFor]="chipList"
