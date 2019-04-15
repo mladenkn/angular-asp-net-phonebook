@@ -1,16 +1,16 @@
-<form [formGroup]="form">
+<form>
     
     <div class="form-text-entry">
         <mat-form-field>
-            <input matInput placeholder="First name" formControlName="firstName"
-                readonly="{{mode == 'Readonly'}}"/>
+            <input matInput placeholder="First name" [(ngModel)]="editedContact.firstName"
+                name="firstName" readonly="{{mode == 'Readonly'}}"/>
         </mat-form-field>
     </div>
 
     <div class="form-text-entry">
         <mat-form-field>
-            <input matInput placeholder="Last name" formControlName="lastName"
-                readonly="{{mode == 'Readonly'}}"/>
+            <input matInput placeholder="Last name" [(ngModel)]="editedContact.lastName" 
+                name="lastName" readonly="{{mode == 'Readonly'}}"/>
         </mat-form-field>
     </div>
 
@@ -20,7 +20,7 @@
                 <h6 class="form-array--heading">Tags:</h6>
             </div>
             <mat-chip-list #chipList>
-                <mat-chip *ngFor="let t of tags;" [removable]="removable">
+                <mat-chip *ngFor="let t of editedContact.tags;" [removable]="removable">
                     {{t.value}}       
                     <div *ngIf="mode != 'Readonly'">             
                         <mat-icon matChipRemove (click)="removeTag(t.value)">cancel</mat-icon>
@@ -37,7 +37,7 @@
         </mat-form-field>
     </div>
 
-    <div class="form-array-entry">
+    <!-- <div class="form-array-entry">
         <h6 class="form-array--heading">Emails:</h6>
         <div class="form-array--body">
             <div formArrayName="emails" class="form-array">
@@ -79,7 +79,7 @@
                 </button>
             </div>
         </div>
-    </div>
+    </div> -->
     
     <div *ngIf="mode != 'Readonly'"> 
         <button 

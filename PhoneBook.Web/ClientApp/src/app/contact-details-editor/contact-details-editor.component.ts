@@ -24,84 +24,82 @@ export class ContactDetailsEditorComponent implements OnInit {
 
   form: FormGroup
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  editedContact: ContactDetails
   
-  constructor(private fb: FormBuilder){
-    this.getArray = this.getArray.bind(this)
-  }
+  constructor(private fb: FormBuilder){}
 
   ngOnInit() {
-    const {contact, fb} = this
-    this.form = fb.group({
-      firstName: contact ? contact.firstName : '',
-      lastName: contact ? contact.lastName : '',
-      emails: fb.array(
-        (contact ? contact.emails: []).map(e => fb.control(e))
-      ),
-      tags: fb.array(
-        (contact ? contact.tags: []).map(e => fb.control(e))
-      ),
-      phoneNumbers: fb.array(
-        (contact ? contact.phoneNumbers: []).map(e => fb.control(e.toString()))
-      )
-    });
+    // const {contact, fb} = this
+    // this.form = fb.group({
+    //   firstName: contact ? contact.firstName : '',
+    //   lastName: contact ? contact.lastName : '',
+    //   emails: fb.array(
+    //     (contact ? contact.emails: []).map(e => fb.control(e))
+    //   ),
+    //   tags: fb.array(
+    //     (contact ? contact.tags: []).map(e => fb.control(e))
+    //   ),
+    //   phoneNumbers: fb.array(
+    //     (contact ? contact.phoneNumbers: []).map(e => fb.control(e.toString()))
+    //   )
+    // });
+    this.editedContact = JSON.parse(JSON.stringify(this.contact))
   }
 
-  extractInput(){
-    return {
-      firstName: this.form.get("firstName").value as string,
-      lastName: this.form.get("lastName").value as string,
-      tags: this.tags.map(e => e.value as {id: number; value: string}),
-      emails: this.emails.map(e => e.value as {id: number; value: string}),
-      phoneNumbers: this.phoneNumbers
-        .map(e => ({id: e.value.id as number, value: parseInt(e.value as string)}))
-    }
-  }
+  // extractInput(){
+  //   return {
+  //     firstName: this.form.get("firstName").value as string,
+  //     lastName: this.form.get("lastName").value as string,
+  //     tags: this.tags.map(e => e.value as {id: number; value: string}),
+  //     emails: this.emails.map(e => e.value as {id: number; value: string}),
+  //     phoneNumbers: this.phoneNumbers
+  //       .map(e => ({id: e.value.id as number, value: parseInt(e.value as string)}))
+  //   }
+  // }
 
-  getArray(name: string){
-    return (this.form.get(name) as FormArray);
-  }
+  // getArray(name: string){
+  //   return (this.form.get(name) as FormArray);
+  // }
 
-  get tags(){
-    return this.getArray("tags").controls
-  }
+  // get tags(){
+  //   return this.getArray("tags").controls
+  // }
 
-  get emails(){
-    return this.getArray("emails").controls
-  }
+  // get emails(){
+  //   return this.getArray("emails").controls
+  // }
 
-  get phoneNumbers(){
-    return this.getArray("phoneNumbers").controls
-  }
+  // get phoneNumbers(){
+  //   return this.getArray("phoneNumbers").controls
+  // }
 
-  addEmail(value: string){
-    this.getArray('email').push(this.fb.control({id: 0, value}))
-  }
+  // addEmail(value: string){
+  //   this.getArray('email').push(this.fb.control({id: 0, value}))
+  // }
 
   addTag(e: MatChipInputEvent){
     const {input, value} = e;
 
     if ((value || '').trim()) 
-      this.getArray('tags').push(this.fb.control({ id: 0, value: value.trim()}));    
+      this.editedContact.tags.push({ id: 0, value: value.trim()});
 
     if (input) 
       input.value = '';
   }
 
   removeTag(tagName: string){
-    console.log(tagName)
-    const tagsArray = this.getArray('tags');
-    const index = tagsArray.controls.findIndex(e => e.value.value == tagName);
+    const index = this.editedContact.tags.findIndex(e => e.value == tagName);
     if (index >= 0) 
-      tagsArray.controls.splice(index, 1);
+      this.editedContact.tags.splice(index, 1);
   }
 
   addPhoneNumber(value: number){
-    this.getArray('phoneNumbers').push(this.fb.control({id: 0, value}))    
+      
   }
 
-  triggerWantsToFinishEditing(){
-    const input = this.extractInput();
-    this.wantsToFinishEditing.emit({...input, id: this.contact.id});
+  triggerWantsToFinishEditing(){   
+    console.log(this.editedContact) 
+    // this.wantsToFinishEditing.emit(this.editedContact);
   }
 
   triggerWantsToEdit(){

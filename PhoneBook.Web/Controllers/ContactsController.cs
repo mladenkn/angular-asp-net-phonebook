@@ -30,9 +30,19 @@ namespace PhoneBook.Web.Controllers
         public Task Delete(int contactId) => _safeRunner.Run(() => _contactsService.Delete(contactId), Ok);
 
         [HttpPost("[action]")]
-        public Task Post(Contact c) => _safeRunner.Run(() => _contactsService.Save(c), Ok);
+        public Task Post(Contact c) => 
+            _safeRunner.Run(() =>
+            {
+                _contactsService.EnsureIntegrity(c);
+                return _contactsService.Save(c);
+            }, Ok);
 
         [HttpPut("[action]")]
-        public Task Put(Contact c) => _safeRunner.Run(() => _contactsService.Update(c), Ok);
+        public Task Put(Contact c) => 
+            _safeRunner.Run(() =>
+            {
+                _contactsService.EnsureIntegrity(c);
+                return _contactsService.Update(c);
+            }, Ok);
     }
 }

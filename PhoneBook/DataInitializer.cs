@@ -95,7 +95,10 @@ namespace PhoneBook
             };
 
             foreach (var c in contacts)
+            {
+                contactsService.EnsureIntegrity(c);
                 await contactsService.Save(c);
+            }
         }
     }
 }

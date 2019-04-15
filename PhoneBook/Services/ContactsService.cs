@@ -13,6 +13,7 @@ namespace PhoneBook.Services
         Task Save(Contact c);
         Task Delete(int contactId);
         Task Update(Contact c);
+        void EnsureIntegrity(Contact c);
     }
 
     public class ContactsService : IContactsService
@@ -35,14 +36,6 @@ namespace PhoneBook.Services
         public async Task Save(Contact c)
         {
             _unitOfWork.Add(c);
-
-            foreach (var t in c.Tags)
-                t.ContactId = c.Id;
-            foreach (var e in c.Emails)
-                e.ContactId = c.Id;
-            foreach (var pn in c.PhoneNumbers)
-                pn.ContactId = c.Id;
-
             await _unitOfWork.PersistChanges();
         }
 
@@ -66,6 +59,16 @@ namespace PhoneBook.Services
             _unitOfWork.Add(c.Tags.Where(pn => pn.Id == 0));
 
             await _unitOfWork.PersistChanges();
+        }
+
+        public void EnsureIntegrity(Contact c)
+        {
+            foreach (var t in c.Tags)
+                t.ContactId = c.Id;
+            foreach (var e in c.Emails)
+                e.ContactId = c.Id;
+            foreach (var pn in c.PhoneNumbers)
+                pn.ContactId = c.Id;
         }
     }
 }
