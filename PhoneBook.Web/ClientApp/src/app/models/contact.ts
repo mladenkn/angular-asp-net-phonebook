@@ -10,5 +10,6 @@ export interface ContactDetails {
 export interface ContactListItem {
     id: number
     firstName: string
-    lastName: string    
+    lastName: string
+    tags: string[] 
 }

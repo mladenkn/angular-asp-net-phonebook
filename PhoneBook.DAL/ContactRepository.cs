@@ -41,6 +41,7 @@ namespace PhoneBook.DAL
         {
             var models = await _dbContext.Contacts
                 .Where(c => !c.IsDeleted)
+                .Include(c => c.Tags)
                 .ToListAsync();
             return models.Select(m => _mapper.Map<ContactListItem>(m));
         }

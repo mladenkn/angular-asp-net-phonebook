@@ -9,7 +9,7 @@
     <tbody>
         <tr *ngFor="let c of contacts">
             <td>{{ c.firstName + " " + c.lastName }}</td>
-            <td>tag1, tag2</td>
+            <td>{{ c.tags.join(', ') }}</td>
             <td><a routerLink="/contact/{{c.id}}">Details</a></td>
         </tr>    
     </tbody>
