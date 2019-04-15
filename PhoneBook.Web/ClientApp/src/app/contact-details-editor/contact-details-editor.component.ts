@@ -1,5 +1,4 @@
 import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
-import { FormGroup, FormBuilder, FormArray } from "@angular/forms";
 import { MatChipInputEvent } from "@angular/material";
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 
@@ -22,64 +21,17 @@ export class ContactDetailsEditorComponent implements OnInit {
   @Output() readonly wantsToFinishEditing = new EventEmitter<ContactDetails>();
   @Output() readonly wantsToEdit = new EventEmitter<void>();
 
-  form: FormGroup
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  phoneNumbersInput: {id: number, value: string}[]
   editedContact: ContactDetails
-  
-  constructor(private fb: FormBuilder){}
 
   ngOnInit() {
-    // const {contact, fb} = this
-    // this.form = fb.group({
-    //   firstName: contact ? contact.firstName : '',
-    //   lastName: contact ? contact.lastName : '',
-    //   emails: fb.array(
-    //     (contact ? contact.emails: []).map(e => fb.control(e))
-    //   ),
-    //   tags: fb.array(
-    //     (contact ? contact.tags: []).map(e => fb.control(e))
-    //   ),
-    //   phoneNumbers: fb.array(
-    //     (contact ? contact.phoneNumbers: []).map(e => fb.control(e.toString()))
-    //   )
-    // });
     this.editedContact = JSON.parse(JSON.stringify(this.contact))
+    this.phoneNumbersInput = this.editedContact.phoneNumbers.map(e => ({id: e.id, value: e.value.toString()}))
   }
-
-  // extractInput(){
-  //   return {
-  //     firstName: this.form.get("firstName").value as string,
-  //     lastName: this.form.get("lastName").value as string,
-  //     tags: this.tags.map(e => e.value as {id: number; value: string}),
-  //     emails: this.emails.map(e => e.value as {id: number; value: string}),
-  //     phoneNumbers: this.phoneNumbers
-  //       .map(e => ({id: e.value.id as number, value: parseInt(e.value as string)}))
-  //   }
-  // }
-
-  // getArray(name: string){
-  //   return (this.form.get(name) as FormArray);
-  // }
-
-  // get tags(){
-  //   return this.getArray("tags").controls
-  // }
-
-  // get emails(){
-  //   return this.getArray("emails").controls
-  // }
-
-  // get phoneNumbers(){
-  //   return this.getArray("phoneNumbers").controls
-  // }
-
-  // addEmail(value: string){
-  //   this.getArray('email').push(this.fb.control({id: 0, value}))
-  // }
 
   addTag(e: MatChipInputEvent){
     const {input, value} = e;
-
     if ((value || '').trim()) 
       this.editedContact.tags.push({ id: 0, value: value.trim()});
 
@@ -87,19 +39,30 @@ export class ContactDetailsEditorComponent implements OnInit {
       input.value = '';
   }
 
-  removeTag(tagName: string){
-    const index = this.editedContact.tags.findIndex(e => e.value == tagName);
-    if (index >= 0) 
-      this.editedContact.tags.splice(index, 1);
+  removeTag(i: number){
+      this.editedContact.tags.splice(i, 1);
   }
 
-  addPhoneNumber(value: number){
-      
+  addEmail(){
+    this.editedContact.emails.push({id: 0, value: ''})
   }
 
-  triggerWantsToFinishEditing(){   
+  removeEmail(i: number){
+    this.editedContact.emails.splice(i, 1)
+  }
+
+  addPhoneNumber(){
+    this.phoneNumbersInput.push({id: 0, value: ''})      
+  }
+
+  removePhoneNumber(i: number){
+    this.phoneNumbersInput.splice(i, 1)      
+  }
+
+  triggerWantsToFinishEditing(){
+    this.editedContact.phoneNumbers = this.phoneNumbersInput.map(e => ({id: e.id, value: parseInt(e.value)}))
     console.log(this.editedContact) 
-    // this.wantsToFinishEditing.emit(this.editedContact);
+    this.wantsToFinishEditing.emit(this.editedContact);
   }
 
   triggerWantsToEdit(){

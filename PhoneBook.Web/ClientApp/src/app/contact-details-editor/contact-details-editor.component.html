@@ -20,10 +20,10 @@
                 <h6 class="form-array--heading">Tags:</h6>
             </div>
             <mat-chip-list #chipList>
-                <mat-chip *ngFor="let t of editedContact.tags;" [removable]="removable">
+                <mat-chip *ngFor="let t of editedContact.tags; let i=index" [removable]="removable">
                     {{t.value}}       
                     <div *ngIf="mode != 'Readonly'">             
-                        <mat-icon matChipRemove (click)="removeTag(t.value)">cancel</mat-icon>
+                        <mat-icon matChipRemove (click)="removeTag(i)">cancel</mat-icon>
                     </div>
                 </mat-chip>
                 <div *ngIf="mode != 'Readonly'"> 
@@ -37,49 +37,53 @@
         </mat-form-field>
     </div>
 
-    <!-- <div class="form-array-entry">
+    <div class="form-array-entry">
         <h6 class="form-array--heading">Emails:</h6>
         <div class="form-array--body">
-            <div formArrayName="emails" class="form-array">
-                <div *ngFor="let e of emails; let i=index" [formGroupName]="i">
+            <div class="form-array--array">
+                <div *ngFor="let e of editedContact.emails; let i=index">
                     <mat-form-field class="form-array--field">
-                        <input [formControlName]="value" matInput readonly="{{mode == 'Readonly'}}"/>
-                    </mat-form-field>
+                        <input [(ngModel)]="editedContact.emails[i].value" matInput 
+                            name="{{'email'+i}}" readonly="{{mode == 'Readonly'}}"/>
+                    </mat-form-field>  
+                    <button mat-icon-button *ngIf="mode != 'Readonly'" (click)="removeEmail(i)">
+                        <mat-icon>cancel</mat-icon>
+                    </button>
                 </div>
             </div>
-            <div *ngIf="mode != 'Readonly'"> 
-                <button 
-                    mat-raised-button
-                    color="primary" 
-                    (click)="addEmail()" 
-                    class="form-array--add-btn">
-                    Add email
-                </button>
-            </div>
+            <button *ngIf="mode != 'Readonly'"
+                mat-raised-button
+                color="primary" 
+                (click)="addEmail()" 
+                class="form-array--add-btn">
+                Add email
+            </button>
         </div>
     </div>
 
     <div class="form-array-entry">
         <h6 class="form-array--heading">Phone numbers:</h6>
         <div class="form-array--body">
-            <div formArrayName="phoneNumbers" class="form-array">
-                <div *ngFor="let e of phoneNumbers; let i=index">
+            <div class="form-array--array">
+                <div *ngFor="let e of phoneNumbersInput; let i=index">
                     <mat-form-field class="form-array--field">
-                        <input [formControlName]="value" matInput readonly="{{mode == 'Readonly'}}"/>
+                        <input [(ngModel)]="phoneNumbersInput[i].value" matInput 
+                            name="{{'phoneNumber'+i}}" readonly="{{mode == 'Readonly'}}"/>
                     </mat-form-field>
+                    <button mat-icon-button *ngIf="mode != 'Readonly'" (click)="removePhoneNumber(i)">
+                        <mat-icon>cancel</mat-icon>
+                    </button>
                 </div>        
             </div>
-            <div *ngIf="mode != 'Readonly'"> 
-                <button 
+            <button *ngIf="mode != 'Readonly'"
                 mat-raised-button 
-                    color="primary" 
-                    (click)="addPhoneNumber()" 
-                    class="form-array--add-btn">
-                    Add phone number
-                </button>
-            </div>
+                color="primary" 
+                (click)="addPhoneNumber()" 
+                class="form-array--add-btn">
+                Add phone number
+            </button>
         </div>
-    </div> -->
+    </div>
     
     <div *ngIf="mode != 'Readonly'"> 
         <button 

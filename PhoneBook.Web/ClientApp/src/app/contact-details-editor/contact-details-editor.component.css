@@ -1,5 +1,5 @@
 form {
-    width: 300px;
+    width: 320px;
 }
 
 .form-text-entry {
@@ -11,20 +11,16 @@ form {
 }
 
 .mat-form-field {
-    display: block;
+    display: inline-block;
+    width: 270px;
 }
 
 .form-array--add-btn {
-    float: right;
     padding: 0px 11px;
 }
 
 .form-array--heading {
     margin-bottom: 12px;
-}
-
-.form-array--body {
-    margin-left: 10px;
 }
 
 .form-array--field {
@@ -34,7 +30,6 @@ form {
 
 .form-last-btn {
     margin-top: 35px;
-    float: right;
 } 
 
 /* .form-element {
