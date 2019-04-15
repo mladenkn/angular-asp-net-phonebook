@@ -10,13 +10,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatGridListModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { ContactListComponent } from './contacts-list/contact-list.component';
 import { ContactDetailsComponent } from './contact-details/contact-details.component';
-import { ContactDetailsEditorComponent as ContactDetailsEditorComponent } from './contact-details-editor/contact-details-editor.component';
-import { ContactDetailsReadonly } from './contact-details-readonly/contact-details-readonly.component';
+import { ContactDetailsEditorComponent } from './contact-details-editor/contact-details-editor.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +23,6 @@ import { ContactDetailsReadonly } from './contact-details-readonly/contact-detai
     ContactListComponent,
     ContactDetailsComponent,
     ContactDetailsEditorComponent,
-    ContactDetailsReadonly,    
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
