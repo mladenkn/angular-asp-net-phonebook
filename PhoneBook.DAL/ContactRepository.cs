@@ -25,16 +25,14 @@ namespace PhoneBook.DAL
                 .Where(c => !c.IsDeleted)
                 .FirstOrDefaultAsync(c => c.Id == contactId);
 
-        public async Task<ContactAllData> GetDetails(int contactId)
+        public async Task<Contact> GetDetails(int contactId)
         {
-            var contact = await _dbContext.Contacts
+            return await _dbContext.Contacts
                 .Where(c => !c.IsDeleted)
                 .Include(c => c.Emails)
                 .Include(c => c.Tags)
                 .Include(c => c.PhoneNumbers)
                 .FirstOrDefaultAsync(c => c.Id == contactId);
-
-            return _mapper.Map<ContactAllData>(contact);
         }
 
         public async Task<IEnumerable<ContactListItem>> GetList(GetContactListRequest r)

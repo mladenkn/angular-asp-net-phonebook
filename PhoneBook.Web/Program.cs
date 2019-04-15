@@ -15,6 +15,7 @@ namespace PhoneBook.Web
             {
                 var contactService = services.ServiceProvider.GetService<IContactsService>();
                 await DataInitializer.Initialize(contactService);
+                var c = await contactService.GetDetails(1);
             }
             host.Run();
         }

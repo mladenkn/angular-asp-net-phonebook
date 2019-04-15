@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using PhoneBook.Models;
 using PhoneBook.Services;
 
@@ -10,66 +11,86 @@ namespace PhoneBook
         {
             var contacts = new[]
             {
-                new ContactAllData
+                new Contact
                 {
                     FirstName = "Mladen",
                     LastName = "Knezović",
                     Emails = new[]
                     {
-                        "mladen.knezovic.1993@gmail.com",
-                        "mail2@gmail.com"
+                        new Contact.Email { Value = "mladen.knezovic.1993@gmail.com"},
+                        new Contact.Email { Value = "mail2@gmail.com"},
                     },
                     PhoneNumbers = new[]
                     {
-                        4632345345, 4564563234
+                        new Contact.PhoneNumber { Value = 4632345345},
+                        new Contact.PhoneNumber { Value = 4564563234},
                     },
-                    Tags = new[] {"tag1", "tag2"}
+                    Tags = new[]
+                    {
+                        new Contact.Tag { Value = "tag1"},
+                        new Contact.Tag { Value = "tag2"},
+                    }
                 },
 
-                new ContactAllData
+                new Contact
                 {
                     FirstName = "Ante",
                     LastName = "Filipović",
                     Emails = new[]
                     {
-                        "mail3@gmail.com",
-                        "mail4@gmail.com"
+                        new Contact.Email { Value = "mail3@gmail.com"},
+                        new Contact.Email { Value = "mail4@gmail.com"},
                     },
                     PhoneNumbers = new[]
                     {
-                        4523462345, 56756734523
+                        new Contact.PhoneNumber { Value = 4523462345},
+                        new Contact.PhoneNumber { Value = 56756734523},
                     },
-                    Tags = new[] {"tag1", "tag3"}
+                    Tags = new[]
+                    {
+                        new Contact.Tag { Value = "tag1"},
+                        new Contact.Tag { Value = "tag3"},
+                    }
                 },
 
-                new ContactAllData
+                new Contact
                 {
                     FirstName = "Ime1",
                     LastName = "Prezime1",
                     Emails = new[]
                     {
-                        "mail4@gmail.com"
+                        new Contact.Email { Value = "mail4@gmail.com"},
                     },
                     PhoneNumbers = new[]
                     {
-                        34545673456
+                        new Contact.PhoneNumber { Value = 34545673456},
                     },
-                    Tags = new[] {"tag1", "tag3", "tag4"}
+                    Tags = new[]
+                    {
+                        new Contact.Tag { Value = "tag1"},
+                        new Contact.Tag { Value = "tag3"},
+                        new Contact.Tag { Value = "tag4"},
+                    }
                 },
 
-                new ContactAllData
+                new Contact
                 {
                     FirstName = "Ime2",
                     LastName = "Prezime2",
                     Emails = new[]
                     {
-                        "mail4@gmail.com"
+                        new Contact.Email { Value = "mail4@gmail.com"},
                     },
                     PhoneNumbers = new[]
                     {
-                        34545673456
+                        new Contact.PhoneNumber { Value = 34545673456},
                     },
-                    Tags = new[] {"tag2", "tag3", "tag5"}
+                    Tags = new[]
+                    {
+                        new Contact.Tag { Value = "tag1"},
+                        new Contact.Tag { Value = "tag3"},
+                        new Contact.Tag { Value = "tag5"},
+                    }
                 },
             };
 

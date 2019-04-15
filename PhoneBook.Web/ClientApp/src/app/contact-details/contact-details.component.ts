@@ -18,16 +18,18 @@ export class ContactDetailsComponent implements OnInit {
   
   ngOnInit(): void {
     const contactId = +this.route.snapshot.paramMap.get("id");
-    this.contactService.getDetails(contactId).subscribe(r => this.contact = r, console.error);
+    this.contactService.getDetails(contactId).subscribe(r => {
+      console.log(r)
+      return this.contact = r;
+    }, console.error);
   }
 
   wantsToFinishEditing(data: ContactDetails){
-    console.log(data)
     this.contactService.update(data)
-      .subscribe(r => console.log('Contact updated'), console.error)
+      .subscribe(r => this.mode = ContactDetailsEditorMode.Readonly, console.error)    
   }
 
   wantsToEdit(){
-    this.mode = ContactDetailsEditorMode.Edit
+    this.mode = ContactDetailsEditorMode.Edit;
   }
 }

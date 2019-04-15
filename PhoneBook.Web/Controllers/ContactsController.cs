@@ -7,29 +7,32 @@ using PhoneBook.Services;
 namespace PhoneBook.Web.Controllers
 {
     [Route("api/[controller]")]
-    public class ContactsController 
+    public class ContactsController : Controller
     {
         private readonly IContactsService _contactsService;
+        private readonly ISafeRunner _safeRunner;
 
-        public ContactsController(IContactsService contactsService)
+        public ContactsController(IContactsService contactsService, ISafeRunner safeRunner)
         {
             _contactsService = contactsService;
+            _safeRunner = safeRunner;
         }
 
         [HttpGet("[action]/{contactId}")]
-        public Task<ContactAllData> Details(int contactId) => _contactsService.GetDetails(contactId);
+        public Task<IActionResult> Details(int contactId) =>
+            _safeRunner.Run(() =>_contactsService.GetDetails(contactId), Ok);
 
         [HttpPost("[action]")]
-        public Task<IEnumerable<ContactListItem>> List(GetContactListRequest r) => 
-            _contactsService.GetList(r);
+        public Task<IActionResult> List(GetContactListRequest r) =>
+            _safeRunner.Run(() => _contactsService.GetList(r), Ok);
 
         [HttpDelete("[action]/{contactId}")]
-        public Task Delete(int contactId) => _contactsService.Delete(contactId);
+        public Task Delete(int contactId) => _safeRunner.Run(() => _contactsService.Delete(contactId), Ok);
 
         [HttpPost("[action]")]
-        public Task Post(ContactAllData c) => _contactsService.Save(c);
+        public Task Post(Contact c) => _safeRunner.Run(() => _contactsService.Save(c), Ok);
 
         [HttpPut("[action]")]
-        public Task Put(ContactAllData c) => _contactsService.Update(c);
+        public Task Put(Contact c) => _safeRunner.Run(() => _contactsService.Update(c), Ok);
     }
 }

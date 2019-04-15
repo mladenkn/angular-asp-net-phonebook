@@ -3,7 +3,6 @@ import { FormGroup, FormBuilder, FormArray } from "@angular/forms";
 import { MatChipInputEvent } from "@angular/material";
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 
-
 import { ContactDetails } from "../models/contact";
 
 export enum ContactDetailsEditorMode {
@@ -48,43 +47,56 @@ export class ContactDetailsEditorComponent implements OnInit {
   }
 
   extractInput(){
-    const {form, getArray} = this;
     return {
-      firstName: form.get("firstName").value as string,
-      lastName: form.get("lastName").value as string,
-      emails: getArray("emails").map(e => e.value as string),
-      tags: getArray("tags").map(e => e.value as string),
-      phoneNumbers: getArray("phoneNumbers").map(e => parseInt(e.value as string))
+      firstName: this.form.get("firstName").value as string,
+      lastName: this.form.get("lastName").value as string,
+      tags: this.tags.map(e => e.value as {id: number; value: string}),
+      emails: this.emails.map(e => e.value as {id: number; value: string}),
+      phoneNumbers: this.phoneNumbers
+        .map(e => ({id: e.value.id as number, value: parseInt(e.value as string)}))
     }
   }
 
   getArray(name: string){
-    return (this.form.get(name) as FormArray).controls;
+    return (this.form.get(name) as FormArray);
   }
 
-  pushToArray(arrayName: string){
-    this.getArray(arrayName).push(this.fb.control(''));
+  get tags(){
+    return this.getArray("tags").controls
   }
 
-  removeTag(tagName: string){
-    console.log(tagName)
-    const tagsArray = this.getArray('tags');
-    const index = tagsArray.findIndex(e => {
-      console.log(e)
-      return e.value == tagName;
-    });
-    if (index >= 0) 
-      tagsArray.splice(index, 1);
+  get emails(){
+    return this.getArray("emails").controls
+  }
+
+  get phoneNumbers(){
+    return this.getArray("phoneNumbers").controls
+  }
+
+  addEmail(value: string){
+    this.getArray('email').push(this.fb.control({id: 0, value}))
   }
 
   addTag(e: MatChipInputEvent){
     const {input, value} = e;
 
     if ((value || '').trim()) 
-      this.getArray('tags').push(this.fb.control(value.trim()));    
+      this.getArray('tags').push(this.fb.control({ id: 0, value: value.trim()}));    
 
     if (input) 
       input.value = '';
+  }
+
+  removeTag(tagName: string){
+    console.log(tagName)
+    const tagsArray = this.getArray('tags');
+    const index = tagsArray.controls.findIndex(e => e.value.value == tagName);
+    if (index >= 0) 
+      tagsArray.controls.splice(index, 1);
+  }
+
+  addPhoneNumber(value: number){
+    this.getArray('phoneNumbers').push(this.fb.control({id: 0, value}))    
   }
 
   triggerWantsToFinishEditing(){

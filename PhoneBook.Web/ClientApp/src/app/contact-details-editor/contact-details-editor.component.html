@@ -3,14 +3,14 @@
     <div class="form-text-entry">
         <mat-form-field>
             <input matInput placeholder="First name" formControlName="firstName"
-                readonly="mode == 'Readonly'"/>
+                readonly="{{mode == 'Readonly'}}"/>
         </mat-form-field>
     </div>
 
     <div class="form-text-entry">
         <mat-form-field>
             <input matInput placeholder="Last name" formControlName="lastName"
-                readonly="mode == 'Readonly'"/>
+                readonly="{{mode == 'Readonly'}}"/>
         </mat-form-field>
     </div>
 
@@ -20,7 +20,7 @@
                 <h6 class="form-array--heading">Tags:</h6>
             </div>
             <mat-chip-list #chipList>
-                <mat-chip *ngFor="let t of getArray('tags');" [removable]="removable">
+                <mat-chip *ngFor="let t of tags;" [removable]="removable">
                     {{t.value}}       
                     <div *ngIf="mode != 'Readonly'">             
                         <mat-icon matChipRemove (click)="removeTag(t.value)">cancel</mat-icon>
@@ -41,9 +41,9 @@
         <h6 class="form-array--heading">Emails:</h6>
         <div class="form-array--body">
             <div formArrayName="emails" class="form-array">
-                <div *ngFor="let e of getArray('emails'); let i=index">
+                <div *ngFor="let e of emails; let i=index" [formGroupName]="i">
                     <mat-form-field class="form-array--field">
-                        <input [formControlName]="i" matInput/>
+                        <input [formControlName]="value" matInput readonly="{{mode == 'Readonly'}}"/>
                     </mat-form-field>
                 </div>
             </div>
@@ -51,7 +51,7 @@
                 <button 
                     mat-raised-button
                     color="primary" 
-                    (click)="pushToArray('emails')" 
+                    (click)="addEmail()" 
                     class="form-array--add-btn">
                     Add email
                 </button>
@@ -63,9 +63,9 @@
         <h6 class="form-array--heading">Phone numbers:</h6>
         <div class="form-array--body">
             <div formArrayName="phoneNumbers" class="form-array">
-                <div *ngFor="let e of getArray('phoneNumbers'); let i=index">
+                <div *ngFor="let e of phoneNumbers; let i=index">
                     <mat-form-field class="form-array--field">
-                        <input [formControlName]="i" matInput/>
+                        <input [formControlName]="value" matInput readonly="{{mode == 'Readonly'}}"/>
                     </mat-form-field>
                 </div>        
             </div>
@@ -73,7 +73,7 @@
                 <button 
                 mat-raised-button 
                     color="primary" 
-                    (click)="pushToArray('phoneNumbers')" 
+                    (click)="addPhoneNumber()" 
                     class="form-array--add-btn">
                     Add phone number
                 </button>

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using PhoneBook.Models;
@@ -7,11 +8,11 @@ namespace PhoneBook.Services
 {
     public interface IContactsService
     {
-        Task<ContactAllData> GetDetails(int contactId);
+        Task<Contact> GetDetails(int contactId);
         Task<IEnumerable<ContactListItem>> GetList(GetContactListRequest r);
-        Task Save(ContactAllData c);
+        Task Save(Contact c);
         Task Delete(int contactId);
-        Task Update(ContactAllData c);
+        Task Update(Contact c);
     }
 
     public class ContactsService : IContactsService
@@ -27,14 +28,21 @@ namespace PhoneBook.Services
             _unitOfWork = unitOfWork;
         }
 
-        public Task<ContactAllData> GetDetails(int contactId) => _repo.GetDetails(contactId);
+        public Task<Contact> GetDetails(int contactId) => _repo.GetDetails(contactId);
 
         public Task<IEnumerable<ContactListItem>> GetList(GetContactListRequest r) => _repo.GetList(r);
 
-        public async Task Save(ContactAllData c)
+        public async Task Save(Contact c)
         {
-            var dbModel = _mapper.Map<Contact>(c);
-            _unitOfWork.Add(dbModel);
+            _unitOfWork.Add(c);
+
+            foreach (var t in c.Tags)
+                t.ContactId = c.Id;
+            foreach (var e in c.Emails)
+                e.ContactId = c.Id;
+            foreach (var pn in c.PhoneNumbers)
+                pn.ContactId = c.Id;
+
             await _unitOfWork.PersistChanges();
         }
 
@@ -45,13 +53,18 @@ namespace PhoneBook.Services
             await _unitOfWork.PersistChanges();
         }
 
-        public async Task Update(ContactAllData c)
+        public async Task Update(Contact c)
         {
-            var dbModel = _mapper.Map<Contact>(c);
-            _unitOfWork.Update(dbModel);
-            _unitOfWork.UpdateRange(dbModel.PhoneNumbers);
-            _unitOfWork.UpdateRange(dbModel.Emails);
-            _unitOfWork.UpdateRange(dbModel.Tags);
+            _unitOfWork.Update(c);
+
+            _unitOfWork.UpdateRange(c.PhoneNumbers.Where(pn => pn.Id > 0));
+            _unitOfWork.UpdateRange(c.Emails.Where(pn => pn.Id > 0));
+            _unitOfWork.UpdateRange(c.Tags.Where(pn => pn.Id > 0));
+
+            _unitOfWork.Add(c.PhoneNumbers.Where(pn => pn.Id == 0));
+            _unitOfWork.Add(c.Emails.Where(pn => pn.Id == 0));
+            _unitOfWork.Add(c.Tags.Where(pn => pn.Id == 0));
+
             await _unitOfWork.PersistChanges();
         }
     }

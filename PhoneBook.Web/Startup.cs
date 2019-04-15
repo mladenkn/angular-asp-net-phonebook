@@ -50,6 +50,7 @@ namespace PhoneBook.Web
             services.AddTransient<IContactsService, ContactsService>();
             services.AddTransient<IContactRepository, ContactRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<ISafeRunner, SafeRunner>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
