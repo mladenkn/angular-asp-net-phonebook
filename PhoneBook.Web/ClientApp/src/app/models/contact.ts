@@ -2,9 +2,9 @@ export interface ContactDetails {
     id: number
     firstName: string
     lastName: string
-    tags: {id: number, value: string}[]
-    phoneNumbers: {id: number, value: number}[]
-    emails: {id: number, value: string}[]
+    tags: string[]
+    phoneNumbers: number[]
+    emails: string[]
 }
 
 export interface ContactListItem {

@@ -8,67 +8,64 @@ namespace PhoneBook.Services
 {
     public interface IContactsService
     {
-        Task<Contact> GetDetails(int contactId);
+        Task<ContactAllData> GetAllContactData(int contactId);
         Task<IEnumerable<ContactListItem>> GetList(GetContactListRequest r);
-        Task Save(Contact c);
+        Task Save(ContactAllData c);
         Task Delete(int contactId);
-        Task Update(Contact c);
-        void EnsureIntegrity(Contact c);
+        Task Update(ContactAllData c);
     }
 
     public class ContactsService : IContactsService
     {
-        private readonly IContactRepository _repo;
+        private readonly IContactDataProvider _data;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
 
-        public ContactsService(IContactRepository repo, IMapper mapper, IUnitOfWork unitOfWork)
+        public ContactsService(IContactDataProvider data, IMapper mapper, IUnitOfWork unitOfWork)
         {
-            _repo = repo;
+            _data = data;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
         }
 
-        public Task<Contact> GetDetails(int contactId) => _repo.GetDetails(contactId);
+        public Task<ContactAllData> GetAllContactData(int contactId) => _data.GetAllContactData(contactId);
 
-        public Task<IEnumerable<ContactListItem>> GetList(GetContactListRequest r) => _repo.GetList(r);
+        public Task<IEnumerable<ContactListItem>> GetList(GetContactListRequest r) => _data.GetList(r);
 
-        public async Task Save(Contact c)
+        public async Task Save(ContactAllData c)
         {
-            _unitOfWork.Add(c);
+            var dbModel = _mapper.Map<Contact>(c);
+            _unitOfWork.Add(dbModel);
             await _unitOfWork.PersistChanges();
         }
 
         public async Task Delete(int contactId)
         {
-            var m = await _repo.GetOne(contactId);
+            var m = await _data.GetOne(contactId);
             _unitOfWork.Delete(m);
             await _unitOfWork.PersistChanges();
         }
 
-        public async Task Update(Contact c)
+        public async Task Update(ContactAllData contact)
         {
-            _unitOfWork.Update(c);
+            var dbModelWithNewData = _mapper.Map<Contact>(contact);
 
-            _unitOfWork.UpdateRange(c.PhoneNumbers.Where(pn => pn.Id > 0));
-            _unitOfWork.UpdateRange(c.Emails.Where(pn => pn.Id > 0));
-            _unitOfWork.UpdateRange(c.Tags.Where(pn => pn.Id > 0));
-
-            _unitOfWork.Add(c.PhoneNumbers.Where(pn => pn.Id == 0));
-            _unitOfWork.Add(c.Emails.Where(pn => pn.Id == 0));
-            _unitOfWork.Add(c.Tags.Where(pn => pn.Id == 0));
+            var dbModelWithOldData = await _data.GetOne(
+                dbModelWithNewData.Id, 
+                b => b.Add(c => c.Emails).Add(c => c.PhoneNumbers).Add(c => c.Tags)
+            );
+            _unitOfWork.DeleteRange(dbModelWithOldData.Emails);
+            _unitOfWork.DeleteRange(dbModelWithOldData.PhoneNumbers);
+            _unitOfWork.DeleteRange(dbModelWithOldData.Tags);
 
             await _unitOfWork.PersistChanges();
-        }
 
-        public void EnsureIntegrity(Contact c)
-        {
-            foreach (var t in c.Tags)
-                t.ContactId = c.Id;
-            foreach (var e in c.Emails)
-                e.ContactId = c.Id;
-            foreach (var pn in c.PhoneNumbers)
-                pn.ContactId = c.Id;
+            _unitOfWork.Update(dbModelWithNewData);
+            _unitOfWork.AddRange(dbModelWithNewData.Emails);
+            _unitOfWork.AddRange(dbModelWithNewData.PhoneNumbers);
+            _unitOfWork.AddRange(dbModelWithNewData.Tags);
+
+            await _unitOfWork.PersistChanges();
         }
     }
 }

@@ -11,94 +11,91 @@ namespace PhoneBook
         {
             var contacts = new[]
             {
-                new Contact
+                new ContactAllData
                 {
                     FirstName = "Mladen",
                     LastName = "Knezović",
                     Emails = new[]
                     {
-                        new Contact.Email { Value = "mladen.knezovic.1993@gmail.com"},
-                        new Contact.Email { Value = "mail2@gmail.com"},
+                        "mladen.knezovic.1993@gmail.com",
+                        "mail2@gmail.com",
                     },
                     PhoneNumbers = new[]
                     {
-                        new Contact.PhoneNumber { Value = 4632345345},
-                        new Contact.PhoneNumber { Value = 4564563234},
+                        4632345345,
+                        4564563234,
                     },
                     Tags = new[]
                     {
-                        new Contact.Tag { Value = "tag1"},
-                        new Contact.Tag { Value = "tag2"},
+                        "tag1",
+                        "tag2",
                     }
                 },
 
-                new Contact
+                new ContactAllData
                 {
                     FirstName = "Ante",
                     LastName = "Filipović",
                     Emails = new[]
                     {
-                        new Contact.Email { Value = "mail3@gmail.com"},
-                        new Contact.Email { Value = "mail4@gmail.com"},
+                        "mail3@gmail.com",
+                        "mail4@gmail.com",
                     },
                     PhoneNumbers = new[]
                     {
-                        new Contact.PhoneNumber { Value = 4523462345},
-                        new Contact.PhoneNumber { Value = 56756734523},
+                        4523462345,
+                        56756734523,
                     },
                     Tags = new[]
                     {
-                        new Contact.Tag { Value = "tag1"},
-                        new Contact.Tag { Value = "tag3"},
+                        "tag1",
+                        "tag3",
                     }
                 },
 
-                new Contact
+                new ContactAllData
                 {
                     FirstName = "Ime1",
                     LastName = "Prezime1",
                     Emails = new[]
                     {
-                        new Contact.Email { Value = "mail4@gmail.com"},
+                        "mail4@gmail.com",
                     },
                     PhoneNumbers = new[]
                     {
-                        new Contact.PhoneNumber { Value = 34545673456},
+                        34545673456,
                     },
                     Tags = new[]
                     {
-                        new Contact.Tag { Value = "tag1"},
-                        new Contact.Tag { Value = "tag3"},
-                        new Contact.Tag { Value = "tag4"},
+                        "tag1",
+                        "tag3",
+                        "tag4",
                     }
                 },
 
-                new Contact
+                new ContactAllData
                 {
                     FirstName = "Ime2",
                     LastName = "Prezime2",
                     Emails = new[]
                     {
-                        new Contact.Email { Value = "mail4@gmail.com"},
+                        "mail4@gmail.com",
                     },
                     PhoneNumbers = new[]
                     {
-                        new Contact.PhoneNumber { Value = 34545673456},
+                        34545673456,
                     },
                     Tags = new[]
                     {
-                        new Contact.Tag { Value = "tag1"},
-                        new Contact.Tag { Value = "tag3"},
-                        new Contact.Tag { Value = "tag5"},
+                        "tag1",
+                        "tag3",
+                        "tag5",
                     }
                 },
             };
 
             foreach (var c in contacts)
-            {
-                contactsService.EnsureIntegrity(c);
                 await contactsService.Save(c);
-            }
         }
     }
 }

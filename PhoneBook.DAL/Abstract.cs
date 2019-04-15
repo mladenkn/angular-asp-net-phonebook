@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace PhoneBook.DAL
 {
@@ -28,5 +29,20 @@ namespace PhoneBook.DAL
         }
 
         public async Task PersistChanges() => await _dbContext.SaveChangesAsync();
+    }
+
+    public static class QueryableExtensions
+    {
+        public static IQueryable<T> Include<T>(
+            this IQueryable<T> queryable, Action<IncludesBuilder<T>> include) where T : class
+        {
+            var includesBuilder = new IncludesBuilder<T>();
+            include(includesBuilder);
+
+            foreach (var propToInclude in includesBuilder.Includes)
+                queryable = queryable.Include(propToInclude);
+
+            return queryable;
+        }
     }
 }

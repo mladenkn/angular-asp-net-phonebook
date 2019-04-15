@@ -21,7 +21,7 @@
             </div>
             <mat-chip-list #chipList>
                 <mat-chip *ngFor="let t of editedContact.tags; let i=index" [removable]="removable">
-                    {{t.value}}       
+                    {{t}}       
                     <div *ngIf="mode != 'Readonly'">             
                         <mat-icon matChipRemove (click)="removeTag(i)">cancel</mat-icon>
                     </div>
@@ -43,7 +43,7 @@
             <div class="form-array--array">
                 <div *ngFor="let e of editedContact.emails; let i=index">
                     <mat-form-field class="form-array--field">
-                        <input [(ngModel)]="editedContact.emails[i].value" matInput 
+                        <input [(ngModel)]="editedContact.emails[i]" matInput 
                             name="{{'email'+i}}" readonly="{{mode == 'Readonly'}}"/>
                     </mat-form-field>  
                     <button mat-icon-button *ngIf="mode != 'Readonly'" (click)="removeEmail(i)">
@@ -67,7 +67,7 @@
             <div class="form-array--array">
                 <div *ngFor="let e of phoneNumbersInput; let i=index">
                     <mat-form-field class="form-array--field">
-                        <input [(ngModel)]="phoneNumbersInput[i].value" matInput 
+                        <input [(ngModel)]="phoneNumbersInput[i]" matInput 
                             name="{{'phoneNumber'+i}}" readonly="{{mode == 'Readonly'}}"/>
                     </mat-form-field>
                     <button mat-icon-button *ngIf="mode != 'Readonly'" (click)="removePhoneNumber(i)">

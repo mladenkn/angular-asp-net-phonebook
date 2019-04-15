@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -9,30 +8,37 @@ using PhoneBook.Models;
 
 namespace PhoneBook.DAL
 {
-    public class ContactRepository : IContactRepository
+    public class ContactDataProvider : IContactDataProvider
     {
         private readonly PhoneBookDbContext _dbContext;
         private readonly IMapper _mapper;
 
-        public ContactRepository(PhoneBookDbContext dbContext, IMapper mapper)
+        public ContactDataProvider(PhoneBookDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
             _mapper = mapper;
         }
 
-        public Task<Contact> GetOne(int contactId) => 
-            _dbContext.Contacts
-                .Where(c => !c.IsDeleted)
-                .FirstOrDefaultAsync(c => c.Id == contactId);
-
-        public async Task<Contact> GetDetails(int contactId)
+        public Task<Contact> GetOne(int contactId, Action<IncludesBuilder<Contact>> include)
         {
-            return await _dbContext.Contacts
+            void IncludeDefault(IncludesBuilder<Contact> b) { }
+
+            return _dbContext.Contacts
+                .Where(c => !c.IsDeleted)
+                .Include(include ?? IncludeDefault)
+                .FirstOrDefaultAsync(c => c.Id == contactId);
+        }
+
+        public async Task<ContactAllData> GetAllContactData(int contactId)
+        {
+            var r = await _dbContext.Contacts
                 .Where(c => !c.IsDeleted)
                 .Include(c => c.Emails)
                 .Include(c => c.Tags)
                 .Include(c => c.PhoneNumbers)
                 .FirstOrDefaultAsync(c => c.Id == contactId);
+
+            return _mapper.Map<ContactAllData>(r);
         }
 
         public async Task<IEnumerable<ContactListItem>> GetList(GetContactListRequest r)

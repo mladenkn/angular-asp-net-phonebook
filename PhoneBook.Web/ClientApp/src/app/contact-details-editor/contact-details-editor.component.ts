@@ -22,18 +22,18 @@ export class ContactDetailsEditorComponent implements OnInit {
   @Output() readonly wantsToEdit = new EventEmitter<void>();
 
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-  phoneNumbersInput: {id: number, value: string}[]
+  phoneNumbersInput: string[]
   editedContact: ContactDetails
 
   ngOnInit() {
     this.editedContact = JSON.parse(JSON.stringify(this.contact))
-    this.phoneNumbersInput = this.editedContact.phoneNumbers.map(e => ({id: e.id, value: e.value.toString()}))
+    this.phoneNumbersInput = this.editedContact.phoneNumbers.map(e => e.toString())
   }
 
   addTag(e: MatChipInputEvent){
     const {input, value} = e;
     if ((value || '').trim()) 
-      this.editedContact.tags.push({ id: 0, value: value.trim()});
+      this.editedContact.tags.push(value.trim());
 
     if (input) 
       input.value = '';
@@ -44,7 +44,7 @@ export class ContactDetailsEditorComponent implements OnInit {
   }
 
   addEmail(){
-    this.editedContact.emails.push({id: 0, value: ''})
+    this.editedContact.emails.push('');
   }
 
   removeEmail(i: number){
@@ -52,7 +52,7 @@ export class ContactDetailsEditorComponent implements OnInit {
   }
 
   addPhoneNumber(){
-    this.phoneNumbersInput.push({id: 0, value: ''})      
+    this.phoneNumbersInput.push('')      
   }
 
   removePhoneNumber(i: number){
@@ -60,8 +60,8 @@ export class ContactDetailsEditorComponent implements OnInit {
   }
 
   triggerWantsToFinishEditing(){
-    this.editedContact.phoneNumbers = this.phoneNumbersInput.map(e => ({id: e.id, value: parseInt(e.value)}))
-    console.log(this.editedContact) 
+    this.editedContact.phoneNumbers = this.phoneNumbersInput.map(e => parseInt(e));
+    console.log(this.editedContact);
     this.wantsToFinishEditing.emit(this.editedContact);
   }
 

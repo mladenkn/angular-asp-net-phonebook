@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using PhoneBook.Models;
 using PhoneBook.Services;
 
 namespace PhoneBook.Web
@@ -15,7 +16,7 @@ namespace PhoneBook.Web
             {
                 var contactService = services.ServiceProvider.GetService<IContactsService>();
                 await DataInitializer.Initialize(contactService);
-                //var c = await contactService.GetDetails(1);
+                //var c = await contactService.GetAllContactData(1);
             }
             host.Run();
         }

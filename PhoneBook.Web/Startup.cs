@@ -48,7 +48,7 @@ namespace PhoneBook.Web
             services.AddAutoMapper(o => o.AddProfile<MapperProfile>());
 
             services.AddTransient<IContactsService, ContactsService>();
-            services.AddTransient<IContactRepository, ContactRepository>();
+            services.AddTransient<IContactDataProvider, ContactDataProvider>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<ISafeRunner, SafeRunner>();
         }

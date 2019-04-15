@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-
 namespace PhoneBook.Models
 {
     public class Contact : IDeletable
@@ -29,9 +27,9 @@ namespace PhoneBook.Models
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        
-        public IEnumerable<Email> Emails { get; set; }
+
         public IEnumerable<Tag> Tags { get; set; }
+        public IEnumerable<Email> Emails { get; set; }
         public IEnumerable<PhoneNumber> PhoneNumbers { get; set; }
 
         public bool IsDeleted { get; set; }
@@ -43,5 +41,15 @@ namespace PhoneBook.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public IEnumerable<string> Tags { get; set; }
+    }
+
+    public class ContactAllData
+    {
+        public int Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public IEnumerable<string> Tags { get; set; }
+        public IEnumerable<string> Emails { get; set; }
+        public IEnumerable<long> PhoneNumbers { get; set; }
     }
 }
