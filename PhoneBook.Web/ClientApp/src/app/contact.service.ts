@@ -11,8 +11,8 @@ export class ContactService {
         this.baseUrl = baseUrl + "Contacts/"        
     }
 
-    getDetails(contactId: number){
-        return this.http.get<ContactDetails>(this.baseUrl + "Details/" + contactId)
+    getDetails(id: number){
+        return this.http.get<ContactDetails>(this.baseUrl + "Details/" + id)
     }
 
     getList(request?: GetContactsRequest){
@@ -28,8 +28,9 @@ export class ContactService {
     save(contact: ContactDetails){
         return this.http.post(this.baseUrl + "Post", null, {params: contact as any}) 
     }
-}
-    
-// http.delete(baseUrl + 'Contacts/Delete/1')
-//   .subscribe(console.log, console.error);     
+
+    delete(id: number){
+        return this.http.delete(this.baseUrl + "Delete/" + id) 
+    }
+}   
 
