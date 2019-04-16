@@ -1,7 +1,3 @@
-table {
-    width: 500px;
-}
-
-.query-table-seperator {
-    height: 50px;
+contacts-query, table {
+    width: 100%;
 }
