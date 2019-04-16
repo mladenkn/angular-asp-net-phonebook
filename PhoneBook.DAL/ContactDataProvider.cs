@@ -51,13 +51,13 @@ namespace PhoneBook.DAL
 
             var models = await _dbContext.Contacts
                 .Include(c => c.Tags)
-                .Where(c => !c.IsDeleted &&
-                    r.FirstNameSearchString == null || c.FirstName.ToLower().Contains(r.FirstNameSearchString.ToLower()) &&
-                    r.LastNameSearchString == null || c.LastName.ToLower().Contains(r.LastNameSearchString.ToLower()) &&
-                    r.ContactMustContainAllTags.All(
-                        t => c.Tags.Any(t2 => string.Equals(t, t2.Value, strComp))) &&
-                    r.ContactMustContainSomeTags.Any(
-                        t => c.Tags.Any(t2 => string.Equals(t, t2.Value, strComp)))
+                .Where(c => !c.IsDeleted
+                //    r.FirstNameSearchString == null || c.FirstName.ToLower().Contains(r.FirstNameSearchString.ToLower()) &&
+                //    r.LastNameSearchString == null || c.LastName.ToLower().Contains(r.LastNameSearchString.ToLower()) &&
+                //    r.ContactMustContainAllTags.All(
+                //        t => c.Tags.Any(t2 => string.Equals(t, t2.Value, strComp))) &&
+                //    r.ContactMustContainSomeTags.Any(
+                //        t => c.Tags.Any(t2 => string.Equals(t, t2.Value, strComp)))
                 )
                 .ToListAsync();
 

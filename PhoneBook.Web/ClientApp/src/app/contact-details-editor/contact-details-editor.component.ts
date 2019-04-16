@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
 import { MatChipInputEvent } from "@angular/material";
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import {ENTER, COMMA, SPACE} from '@angular/cdk/keycodes';
 
 import { ContactDetails } from "../models/contact";
 
@@ -21,7 +21,7 @@ export class ContactDetailsEditorComponent implements OnInit {
   @Output() readonly wantsToFinishEditing = new EventEmitter<ContactDetails>();
   @Output() readonly wantsToEdit = new EventEmitter<void>();
 
-  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA, SPACE];
   phoneNumbersInput: string[]
   editedContact: ContactDetails
 

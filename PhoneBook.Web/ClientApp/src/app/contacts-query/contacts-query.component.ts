@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { GetContactsRequest } from '../models/contact';
 import { MatChipInputEvent } from '@angular/material';
-import { ENTER, COMMA } from '@angular/cdk/keycodes';
+import { ENTER, COMMA, SPACE } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'contacts-query',
@@ -10,7 +10,7 @@ import { ENTER, COMMA } from '@angular/cdk/keycodes';
 })
 export class ContactsQueryComponent {
   
-  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA, SPACE];
   @Output() readonly wantsToRequery = new EventEmitter<GetContactsRequest>();
 
   model: GetContactsRequest = {
