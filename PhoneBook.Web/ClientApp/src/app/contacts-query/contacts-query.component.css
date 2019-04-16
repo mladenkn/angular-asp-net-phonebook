@@ -14,3 +14,11 @@ form {
     position: absolute;
     right: 0px;
 }
+
+.heading {
+    color: darkblue;
+    display: inline-block;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid;
+}
