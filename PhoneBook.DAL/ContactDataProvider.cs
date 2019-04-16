@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using PhoneBook.Models;
+using static System.String;
 
 namespace PhoneBook.DAL
 {
@@ -43,10 +44,23 @@ namespace PhoneBook.DAL
 
         public async Task<IEnumerable<ContactListItem>> GetList(GetContactListRequest r)
         {
+            r.ContactMustContainAllTags = r.ContactMustContainAllTags ?? new string[] { };
+            r.ContactMustContainSomeTags = r.ContactMustContainSomeTags ?? new string[] { };
+
+            var strComp = StringComparison.CurrentCultureIgnoreCase;
+
             var models = await _dbContext.Contacts
-                .Where(c => !c.IsDeleted)
                 .Include(c => c.Tags)
+                .Where(c => !c.IsDeleted &&
+                    r.FirstNameSearchString == null || c.FirstName.ToLower().Contains(r.FirstNameSearchString.ToLower()) &&
+                    r.LastNameSearchString == null || c.LastName.ToLower().Contains(r.LastNameSearchString.ToLower()) &&
+                    r.ContactMustContainAllTags.All(
+                        t => c.Tags.Any(t2 => string.Equals(t, t2.Value, strComp))) &&
+                    r.ContactMustContainSomeTags.Any(
+                        t => c.Tags.Any(t2 => string.Equals(t, t2.Value, strComp)))
+                )
                 .ToListAsync();
+
             return models.Select(m => _mapper.Map<ContactListItem>(m));
         }
     }
