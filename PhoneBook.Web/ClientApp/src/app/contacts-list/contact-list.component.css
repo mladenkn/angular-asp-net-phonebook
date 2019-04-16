@@ -1,3 +1,8 @@
 contacts-query, table {
     width: 100%;
 }
+
+.create-link {
+    position: absolute;
+    right: 70px;
+}
