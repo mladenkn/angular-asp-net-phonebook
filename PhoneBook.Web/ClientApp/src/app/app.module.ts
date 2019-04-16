@@ -16,6 +16,7 @@ import { ContactListComponent } from './contacts-list/contact-list.component';
 import { ContactDetailsComponent } from './contact-details/contact-details.component';
 import { ContactDetailsEditorComponent } from './contact-details-editor/contact-details-editor.component';
 import { ContactsQueryComponent } from './contacts-query/contacts-query.component';
+import { ContactCreateComponent } from './contact-create/contact-create.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { ContactsQueryComponent } from './contacts-query/contacts-query.componen
     ContactDetailsComponent,
     ContactDetailsEditorComponent,
     ContactsQueryComponent,
+    ContactCreateComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -41,6 +43,7 @@ import { ContactsQueryComponent } from './contacts-query/contacts-query.componen
       { path: '', component: ContactListComponent, pathMatch: 'full' },
       { path: 'contacts', component: ContactListComponent },
       { path: 'contact/:id', component: ContactDetailsComponent },
+      { path: 'contacts/create', component: ContactCreateComponent },
     ])
   ],
   providers: [],

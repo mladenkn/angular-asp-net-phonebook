@@ -5,7 +5,7 @@ import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { ContactDetails } from "../models/contact";
 
 export enum ContactDetailsEditorMode {
-  Readonly="Readonly", Edit="Edit"
+  Readonly="Readonly", Edit="Edit", Create="Create"
 }
 
 @Component({
@@ -26,7 +26,16 @@ export class ContactDetailsEditorComponent implements OnInit {
   editedContact: ContactDetails
 
   ngOnInit() {
-    this.editedContact = JSON.parse(JSON.stringify(this.contact))
+    this.editedContact = this.contact ?
+      JSON.parse(JSON.stringify(this.contact)) :
+      {
+        id: 0,
+        firstName: '',
+        lastName: 'string',
+        tags: [],
+        phoneNumbers: [],
+        emails: []       
+      }
     this.phoneNumbersInput = this.editedContact.phoneNumbers.map(e => e.toString())
   }
 
@@ -69,7 +78,6 @@ export class ContactDetailsEditorComponent implements OnInit {
 
   triggerWantsToFinishEditing(){
     this.editedContact.phoneNumbers = this.phoneNumbersInput.map(e => parseInt(e));
-    console.log(this.editedContact);
     this.wantsToFinishEditing.emit(this.editedContact);
   }
 
