@@ -1,0 +1,17 @@
+<mat-grid-list cols="8" gutterSize="80px" rowHeight="430px">
+        
+    <mat-grid-tile colspan="3">
+        <contacts-query (wantsToRequery)="requery($event)"></contacts-query>
+    </mat-grid-tile>     
+
+    <mat-grid-tile colspan="5">
+        <contacts-list [contacts]="contacts"></contacts-list>
+    </mat-grid-tile>       
+
+</mat-grid-list>
+
+<a class="create-link" routerLink="/contacts/create">
+    <button mat-raised-button color="primary">
+        Create new
+    </button>
+</a>
