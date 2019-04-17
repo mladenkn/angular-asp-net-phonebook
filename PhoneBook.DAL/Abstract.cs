@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -43,6 +44,31 @@ namespace PhoneBook.DAL
                 queryable = queryable.Include(propToInclude);
 
             return queryable;
+        }
+    }
+
+    public interface IQuery
+    {
+        IQueryable<T> Of<T>() where T : class;
+    }
+
+    public class Query : IQuery
+    {
+        private readonly DbContext _dbContext;
+
+        public Query(DbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
+        public IQueryable<T> Of<T>() where T : class
+        {
+            var iDeletableName = typeof(IDeletable).AssemblyQualifiedName;
+            var doesImplement = typeof(T).GetInterfaces().Any(i => i.AssemblyQualifiedName == iDeletableName);
+            var set = _dbContext.Set<T>();
+            return doesImplement ? 
+                set.Cast<IDeletable>().Where(m => !m.IsDeleted).Cast<T>() :
+                set;
         }
     }
 }

@@ -22,7 +22,7 @@ namespace PhoneBook.Web
 
         public IConfiguration Configuration { get; }
 
-        private bool _useSsr = false;
+        private readonly bool _useSsr = false;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -31,7 +31,7 @@ namespace PhoneBook.Web
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "BetingSystem API", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = "Phonebook API", Version = "v1" });
             });
 
 
@@ -42,15 +42,10 @@ namespace PhoneBook.Web
                     configuration.RootPath = "ClientApp/dist";
                 });
 
-            services.AddEntityFrameworkInMemoryDatabase();
-            services.AddDbContext<PhoneBookDbContext>(o => o.UseInMemoryDatabase("PhonebookDb"));
-
             services.AddAutoMapper(o => o.AddProfile<MapperProfile>());
-
-            services.AddTransient<IContactsService, ContactsService>();
-            services.AddTransient<IContactDataProvider, ContactDataProvider>();
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddPhoneBookDal(DataBaseType.InMemory);
             services.AddTransient<ISafeRunner, SafeRunner>();
+            services.AddTransient<IContactsService, ContactsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

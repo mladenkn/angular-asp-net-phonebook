@@ -54,5 +54,11 @@ namespace PhoneBook
             ((List<string>) Includes).Add(propName);
             return this;
         }
+
+        public IncludesBuilder<TModel> Add(string propName)
+        {
+            ((List<string>)Includes).Add(propName);
+            return this;
+        }
     }
 }

@@ -5,18 +5,17 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using PhoneBook.Models;
-using static System.String;
 
 namespace PhoneBook.DAL
 {
     public class ContactDataProvider : IContactDataProvider
     {
-        private readonly PhoneBookDbContext _dbContext;
+        private readonly IQuery _query;
         private readonly IMapper _mapper;
 
-        public ContactDataProvider(PhoneBookDbContext dbContext, IMapper mapper)
+        public ContactDataProvider(IQuery query, IMapper mapper)
         {
-            _dbContext = dbContext;
+            _query = query;
             _mapper = mapper;
         }
 
@@ -24,16 +23,14 @@ namespace PhoneBook.DAL
         {
             void IncludeDefault(IncludesBuilder<Contact> b) { }
 
-            return _dbContext.Contacts
-                .Where(c => !c.IsDeleted)
+            return _query.Of<Contact>()
                 .Include(include ?? IncludeDefault)
                 .FirstOrDefaultAsync(c => c.Id == contactId);
         }
 
         public async Task<ContactAllData> GetAllContactData(int contactId)
         {
-            var r = await _dbContext.Contacts
-                .Where(c => !c.IsDeleted)
+            var r = await _query.Of<Contact>()
                 .Include(c => c.Emails)
                 .Include(c => c.Tags)
                 .Include(c => c.PhoneNumbers)
@@ -49,16 +46,15 @@ namespace PhoneBook.DAL
 
             var strComp = StringComparison.CurrentCultureIgnoreCase;
 
-            var models = await _dbContext.Contacts
+            var models = await _query.Of<Contact>()
                 .Include(c => c.Tags)
-                .Where(c => !c.IsDeleted
-                //    r.FirstNameSearchString == null || c.FirstName.ToLower().Contains(r.FirstNameSearchString.ToLower()) &&
+                //.Where(c => r.FirstNameSearchString == null || c.FirstName.ToLower().Contains(r.FirstNameSearchString.ToLower()) &&
                 //    r.LastNameSearchString == null || c.LastName.ToLower().Contains(r.LastNameSearchString.ToLower()) &&
                 //    r.ContactMustContainAllTags.All(
                 //        t => c.Tags.Any(t2 => string.Equals(t, t2.Value, strComp))) &&
                 //    r.ContactMustContainSomeTags.Any(
                 //        t => c.Tags.Any(t2 => string.Equals(t, t2.Value, strComp)))
-                )
+                //)
                 .ToListAsync();
 
             return models.Select(m => _mapper.Map<ContactListItem>(m));
