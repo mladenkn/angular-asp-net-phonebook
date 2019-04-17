@@ -43,6 +43,8 @@ namespace PhoneBook.Services
         public async Task Delete(int contactId)
         {
             var m = await _data.GetOne(contactId);
+            if (m == null)
+                throw new ModelNotFoundException();
             _unitOfWork.Delete(m);
             await _unitOfWork.PersistChanges();
         }
@@ -55,9 +57,15 @@ namespace PhoneBook.Services
                 dbModelWithNewData.Id, 
                 b => b.Add(c => c.Emails).Add(c => c.PhoneNumbers).Add(c => c.Tags)
             );
+
+            if(dbModelWithOldData == null)
+                throw new ModelNotFoundException();
+
             _unitOfWork.DeleteRange(dbModelWithOldData.Emails);
             _unitOfWork.DeleteRange(dbModelWithOldData.PhoneNumbers);
             _unitOfWork.DeleteRange(dbModelWithOldData.Tags);
+
+            await _unitOfWork.PersistChanges();
 
             _unitOfWork.Update(dbModelWithNewData);
             _unitOfWork.AddRange(dbModelWithNewData.Emails);

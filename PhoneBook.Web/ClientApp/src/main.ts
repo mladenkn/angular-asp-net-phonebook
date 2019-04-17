@@ -5,8 +5,7 @@ import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
 export function getBaseUrl() {
-  return  "https://localhost:44308/api/";
-  //return document.getElementsByTagName('base')[0].href + "api/";
+  return document.getElementsByTagName('base')[0].href + "api/";
 }
 
 const providers = [

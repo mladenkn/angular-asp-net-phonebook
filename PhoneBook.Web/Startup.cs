@@ -24,7 +24,6 @@ namespace PhoneBook.Web
 
         public IConfiguration Configuration { get; }
 
-        private readonly bool _useSsr = false;
         private readonly bool _useMemoryDb = false;
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -38,11 +37,10 @@ namespace PhoneBook.Web
             });
 
             // In production, the Angular files will be served from this directory
-            if (_useSsr)
-                services.AddSpaStaticFiles(configuration =>
-                {
-                    configuration.RootPath = "ClientApp/dist";
-                });
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/dist";
+            });
 
             services.AddAutoMapper(o => o.AddProfile<MapperProfile>());
             services.AddTransient<ISafeRunner, SafeRunner>();
@@ -86,8 +84,7 @@ namespace PhoneBook.Web
             
             app.UseHttpsRedirection();
             //app.UseStaticFiles();
-            if(_useSsr)
-                app.UseSpaStaticFiles();
+            app.UseSpaStaticFiles();
 
             app.UseMvc(routes =>
             {
@@ -102,19 +99,18 @@ namespace PhoneBook.Web
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
 
-            if (_useSsr)
-                app.UseSpa(spa =>
+            app.UseSpa(spa =>
+            {
+                 // To learn more about options for serving an Angular SPA from ASP.NET Core,
+                 // see https://go.microsoft.com/fwlink/?linkid=864501
+
+                spa.Options.SourcePath = "ClientApp";
+
+                if (env.IsDevelopment())
                 {
-                     // To learn more about options for serving an Angular SPA from ASP.NET Core,
-                     // see https://go.microsoft.com/fwlink/?linkid=864501
-
-                    spa.Options.SourcePath = "ClientApp";
-
-                    if (env.IsDevelopment())
-                    {
-                        spa.UseAngularCliServer(npmScript: "start");
-                    }
-                });
+                    spa.UseAngularCliServer(npmScript: "start");
+                }
+            });
         }
     }
 }

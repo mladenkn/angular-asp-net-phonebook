@@ -45,7 +45,7 @@
                     <mat-form-field class="form-array--field">
                         <input 
                             value="{{editedContact.emails[i]}}" matInput 
-                            (change)="setEmail(i, e)"
+                            (change)="setEmail(i, $event.target.value)"
                             name="{{'email'+i}}" readonly="{{mode == 'Readonly'}}"/>
                     </mat-form-field>  
                     <button mat-icon-button *ngIf="mode != 'Readonly'" (click)="removeEmail(i)">
@@ -67,7 +67,7 @@
                 <div *ngFor="let e of phoneNumbersInput; let i=index">
                     <mat-form-field class="form-array--field">
                         <input value="{{phoneNumbersInput[i]}}" matInput 
-                            (change)="setPhoneNumber(i, e)"
+                            (change)="setPhoneNumber(i, $event.target.value)"
                             name="{{'phoneNumber'+i}}" readonly="{{mode == 'Readonly'}}"/>
                     </mat-form-field>
                     <button mat-icon-button *ngIf="mode != 'Readonly'" (click)="removePhoneNumber(i)">

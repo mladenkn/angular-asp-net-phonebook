@@ -50,7 +50,7 @@ namespace PhoneBook.Web
             switch (e)
             {
                 case ModelNotFoundException _:
-                    return new NotFoundObjectResult("Model not been found.");
+                    return new NotFoundObjectResult("Model not found.");
 
                 default:
                     return new StatusCodeResult(StatusCodes.Status500InternalServerError);
