@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PhoneBook.Abstract;
 using PhoneBook.DAL;
+using PhoneBook.DAL.Abstract;
 using PhoneBook.Services;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -23,6 +25,7 @@ namespace PhoneBook.Web
         public IConfiguration Configuration { get; }
 
         private readonly bool _useSsr = false;
+        private readonly bool _useMemoryDb = true;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -34,7 +37,6 @@ namespace PhoneBook.Web
                 c.SwaggerDoc("v1", new Info { Title = "Phonebook API", Version = "v1" });
             });
 
-
             // In production, the Angular files will be served from this directory
             if (_useSsr)
                 services.AddSpaStaticFiles(configuration =>
@@ -43,8 +45,29 @@ namespace PhoneBook.Web
                 });
 
             services.AddAutoMapper(o => o.AddProfile<MapperProfile>());
-            services.AddPhoneBookDal(DataBaseType.InMemory);
             services.AddTransient<ISafeRunner, SafeRunner>();
+            
+            if (_useMemoryDb)
+                services.AddEntityFrameworkInMemoryDatabase();
+            services.AddDbContext<PhoneBookDbContext>(o =>
+            {
+                if (_useMemoryDb)
+                    o.UseInMemoryDatabase("PhonebookDb");
+                else if (!_useMemoryDb)
+                {
+                    var cs =
+                        @"Server=(localdb)\mssqllocaldb;Database=Phonebook;Trusted_Connection=True;ConnectRetryCount=0;Integrated Security=False";
+                    var cs2 =
+                        "server=(localdb)\\MSSQLLocalDB;Database=Phonebook;Integrated Security=true;MultipleActiveResultSets=true";
+                    o.UseSqlServer(cs2);
+                }
+            });
+            services.AddTransient<DbContext, PhoneBookDbContext>();
+
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IQuery, Query>();
+            services.AddTransient<IContactDataProvider, ContactDataProvider>();
+
             services.AddTransient<IContactsService, ContactsService>();
         }
 

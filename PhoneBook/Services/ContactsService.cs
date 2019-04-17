@@ -59,8 +59,6 @@ namespace PhoneBook.Services
             _unitOfWork.DeleteRange(dbModelWithOldData.PhoneNumbers);
             _unitOfWork.DeleteRange(dbModelWithOldData.Tags);
 
-            await _unitOfWork.PersistChanges();
-
             _unitOfWork.Update(dbModelWithNewData);
             _unitOfWork.AddRange(dbModelWithNewData.Emails);
             _unitOfWork.AddRange(dbModelWithNewData.PhoneNumbers);
