@@ -25,7 +25,7 @@ namespace PhoneBook.Web
         public IConfiguration Configuration { get; }
 
         private readonly bool _useSsr = false;
-        private readonly bool _useMemoryDb = true;
+        private readonly bool _useMemoryDb = false;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -55,11 +55,8 @@ namespace PhoneBook.Web
                     o.UseInMemoryDatabase("PhonebookDb");
                 else if (!_useMemoryDb)
                 {
-                    var cs =
-                        @"Server=(localdb)\mssqllocaldb;Database=Phonebook;Trusted_Connection=True;ConnectRetryCount=0;Integrated Security=False";
-                    var cs2 =
-                        "server=(localdb)\\MSSQLLocalDB;Database=Phonebook;Integrated Security=true;MultipleActiveResultSets=true";
-                    o.UseSqlServer(cs2);
+                    var connection = Configuration.GetValue<string>("DatabaseConnectionString");
+                    o.UseSqlServer(connection);
                 }
             });
             services.AddTransient<DbContext, PhoneBookDbContext>();
