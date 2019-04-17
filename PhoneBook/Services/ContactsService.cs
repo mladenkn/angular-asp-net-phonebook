@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using PhoneBook.Abstract;
 using PhoneBook.Models;
 
 namespace PhoneBook.Services

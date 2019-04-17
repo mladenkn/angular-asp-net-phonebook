@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using PhoneBook.Abstract;
+using PhoneBook.DAL.Abstract;
 using PhoneBook.Models;
 
 namespace PhoneBook.DAL

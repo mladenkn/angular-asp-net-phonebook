@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using PhoneBook.Abstract;
+using PhoneBook.DAL.Abstract;
 
 namespace PhoneBook.DAL
 {

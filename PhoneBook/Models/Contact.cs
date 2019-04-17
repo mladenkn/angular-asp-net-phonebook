@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using PhoneBook.Abstract;
+
 namespace PhoneBook.Models
 {
     public class Contact : IDeletable
