@@ -35,6 +35,7 @@ namespace PhoneBook.DAL
             var r = await _query.Of<Contact>()
                 .Include(c => c.Emails)
                 .Include(c => c.Tags)
+                .ThenInclude(c => c.Tag)
                 .Include(c => c.PhoneNumbers)
                 .FirstOrDefaultAsync(c => c.Id == contactId);
 
@@ -52,9 +53,9 @@ namespace PhoneBook.DAL
                             (r.LastNameSearchString == null ||
                              c.LastName.ToLower().Contains(r.LastNameSearchString.ToLower())) &&
                             (r.ContactMustContainAllTags == null || r.ContactMustContainAllTags.All(
-                                t => c.Tags.Any(t2 => string.Equals(t, t2.Value, strComp)))) &&
+                                t => c.Tags.Any(t2 => string.Equals(t, t2.Tag.Value, strComp)))) &&
                             (r.ContactMustContainSomeTags == null || r.ContactMustContainSomeTags.Any(
-                                t => c.Tags.Any(t2 => string.Equals(t, t2.Value, strComp))))
+                                t => c.Tags.Any(t2 => string.Equals(t, t2.Tag.Value, strComp))))
                 )
                 .ToListAsync();
 

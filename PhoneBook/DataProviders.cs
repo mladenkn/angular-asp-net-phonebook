@@ -12,4 +12,9 @@ namespace PhoneBook
         Task<ContactAllData> GetAllContactData(int contactId);
         Task<IEnumerable<ContactListItem>> GetList(GetContactListRequest r);
     }
+
+    public interface IDataProvider
+    {
+        Task<IEnumerable<Tag>> TagsNotSaved(IEnumerable<Tag> tags);
+    }
 }

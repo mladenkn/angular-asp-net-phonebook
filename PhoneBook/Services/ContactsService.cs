@@ -18,31 +18,35 @@ namespace PhoneBook.Services
 
     public class ContactsService : IContactsService
     {
-        private readonly IContactDataProvider _data;
+        private readonly IContactDataProvider _contactData;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IDataProvider _data;
 
-        public ContactsService(IContactDataProvider data, IMapper mapper, IUnitOfWork unitOfWork)
+        public ContactsService(
+            IContactDataProvider contactData, IMapper mapper, IUnitOfWork unitOfWork, IDataProvider data)
         {
-            _data = data;
+            _contactData = contactData;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _data = data;
         }
 
-        public Task<ContactAllData> GetAllContactData(int contactId) => _data.GetAllContactData(contactId);
+        public Task<ContactAllData> GetAllContactData(int contactId) => _contactData.GetAllContactData(contactId);
 
-        public Task<IEnumerable<ContactListItem>> GetList(GetContactListRequest r) => _data.GetList(r);
+        public Task<IEnumerable<ContactListItem>> GetList(GetContactListRequest r) => _contactData.GetList(r);
 
         public async Task Save(ContactAllData c)
         {
             var dbModel = _mapper.Map<Contact>(c);
             _unitOfWork.Add(dbModel);
             await _unitOfWork.PersistChanges();
+            c.Id = dbModel.Id;
         }
 
         public async Task Delete(int contactId)
         {
-            var m = await _data.GetOne(contactId);
+            var m = await _contactData.GetOne(contactId);
             if (m == null)
                 throw new ModelNotFoundException();
             _unitOfWork.Delete(m);
@@ -51,28 +55,35 @@ namespace PhoneBook.Services
 
         public async Task Update(ContactAllData contact)
         {
-            var dbModelWithNewData = _mapper.Map<Contact>(contact);
-
-            var dbModelWithOldData = await _data.GetOne(
-                dbModelWithNewData.Id, 
-                b => b.Add(c => c.Emails).Add(c => c.PhoneNumbers).Add(c => c.Tags)
+            var contactDbModel = await _contactData.GetOne(
+                contact.Id,
+                includes => includes.Add(c => c.Tags).Add(c => c.Emails).Add(c => c.PhoneNumbers)
             );
 
-            if(dbModelWithOldData == null)
-                throw new ModelNotFoundException();
-
-            _unitOfWork.DeleteRange(dbModelWithOldData.Emails);
-            _unitOfWork.DeleteRange(dbModelWithOldData.PhoneNumbers);
-            _unitOfWork.DeleteRange(dbModelWithOldData.Tags);
+            _unitOfWork.DeleteRange(contactDbModel.Tags);
+            _unitOfWork.DeleteRange(contactDbModel.Emails);
+            _unitOfWork.DeleteRange(contactDbModel.PhoneNumbers);
 
             await _unitOfWork.PersistChanges();
 
-            _unitOfWork.Update(dbModelWithNewData);
-            _unitOfWork.AddRange(dbModelWithNewData.Emails);
-            _unitOfWork.AddRange(dbModelWithNewData.PhoneNumbers);
-            _unitOfWork.AddRange(dbModelWithNewData.Tags);
+            var tagModels = await MapToTagModelsAndEnsureTheyArePersisted(contact.Tags);
+
+            var tagRelationModels = tagModels.Select(t =>
+                new ContactTag {ContactId = contact.Id, TagId = t.Id});
+
+            _unitOfWork.Update(contactDbModel);
+            _unitOfWork.Add(tagRelationModels);
 
             await _unitOfWork.PersistChanges();
+        }
+
+        private async Task<IEnumerable<Tag>> MapToTagModelsAndEnsureTheyArePersisted(IEnumerable<string> tags)
+        {
+            var tagModels = tags.Select(v => new Tag { Value = v });
+            var tagsNotSaved = await _data.TagsNotSaved(tagModels);
+            _unitOfWork.AddRange(tagsNotSaved);
+             await _unitOfWork.PersistChanges();
+            return tagModels;
         }
     }
 }
