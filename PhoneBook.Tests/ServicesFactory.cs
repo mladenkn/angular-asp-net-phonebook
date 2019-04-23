@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,12 +21,13 @@ namespace PhoneBook.Tests
             return new PhoneBookDbContext(options);
         }
 
-        public static (PhoneBookDbContext, SqliteConnection) DbContext()
+        public static (PhoneBookDbContext, IDbConnection) DbContext()
         {
             var connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
             var options = new DbContextOptionsBuilder<PhoneBookDbContext>()
                 .UseSqlite(connection)
+                .EnableSensitiveDataLogging()
                 .Options;
             var db = new PhoneBookDbContext(options);
             db.Database.EnsureDeleted();

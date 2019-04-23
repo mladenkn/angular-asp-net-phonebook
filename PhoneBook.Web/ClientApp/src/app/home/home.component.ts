@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit {
   }
 
   requery(request: GetContactsRequest){
+    this.contacts = null
     this.contactService.getList(request).subscribe(r => this.contacts = r);
   }
 }

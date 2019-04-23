@@ -48,6 +48,7 @@ namespace PhoneBook.DAL
 
             var models = await _query.Of<Contact>()
                 .Include(c => c.Tags)
+                .ThenInclude(t => t.Tag)
                 .Where(c => (r.FirstNameSearchString == null || 
                              c.FirstName.ToLower().Contains(r.FirstNameSearchString.ToLower())) &&
                             (r.LastNameSearchString == null ||

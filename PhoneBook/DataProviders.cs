@@ -15,6 +15,6 @@ namespace PhoneBook
 
     public interface IDataProvider
     {
-        Task<IEnumerable<Tag>> TagsNotSaved(IEnumerable<Tag> tags);
+        Task<IEnumerable<Tag>> GetTagsIfPersisted(IEnumerable<string> tagValues);
     }
 }

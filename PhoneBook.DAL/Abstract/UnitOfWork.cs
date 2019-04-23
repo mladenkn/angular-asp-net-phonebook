@@ -1,13 +1,14 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using PhoneBook.Abstract;
 
 namespace PhoneBook.DAL.Abstract
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly PhoneBookDbContext _dbContext;
+        private readonly DbContext _dbContext;
 
-        public UnitOfWork(PhoneBookDbContext dbContext)
+        public UnitOfWork(DbContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -16,7 +17,11 @@ namespace PhoneBook.DAL.Abstract
 
         public void Update(object m) => _dbContext.Update(m);
 
-        public void Delete(object m) => _dbContext.Remove(m);
+        public void Delete(object m)
+        {
+            var _ = _dbContext.ChangeTracker.Entries();
+            _dbContext.Remove(m);
+        }
 
         public void Delete(IDeletable m)
         {

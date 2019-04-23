@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using KellermanSoftware.CompareNetObjects;
 using PhoneBook.DAL;
@@ -9,7 +8,7 @@ using Xunit;
 
 namespace PhoneBook.Tests
 {
-    public class ContactPersistanceTest
+    public class ContactPersistenceTest
     {
         [Fact]
         public async Task Run()
@@ -29,9 +28,12 @@ namespace PhoneBook.Tests
             var (db, connection) = ServicesFactory.DbContext();
             var unitOfWork = new UnitOfWork(db);
             var mapper = ServicesFactory.MapperConfiguration().CreateMapper();
-            var contactDataProvider = new ContactDataProvider(new Query(db), mapper);
+            var query = new Query(db);
+            var contactDataProvider = new ContactDataProvider(query, mapper);
+            var dataProvider = new DataProvider(query);
+            var appService = new AppService(dataProvider);
 
-            var service = new ContactsService(contactDataProvider, mapper, unitOfWork, null);
+            var service = new ContactsService(contactDataProvider, mapper, unitOfWork, appService);
             await service.Save(contact);
 
             var readContact = await service.GetAllContactData(contact.Id);

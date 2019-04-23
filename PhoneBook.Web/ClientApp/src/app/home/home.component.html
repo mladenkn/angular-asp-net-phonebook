@@ -5,7 +5,13 @@
     </mat-grid-tile>     
 
     <mat-grid-tile colspan="5">
-        <contacts-list [contacts]="contacts"></contacts-list>
+        <div *ngIf="contacts; then showContacts else showLoading"></div>
+        <ng-template #showContacts>
+            <contacts-list [contacts]="contacts"></contacts-list>
+        </ng-template>
+        <ng-template #showLoading>
+            Loading contacts...
+        </ng-template>        
     </mat-grid-tile>       
 
 </mat-grid-list>

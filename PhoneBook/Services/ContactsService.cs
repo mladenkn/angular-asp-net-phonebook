@@ -11,9 +11,9 @@ namespace PhoneBook.Services
     {
         Task<ContactAllData> GetAllContactData(int contactId);
         Task<IEnumerable<ContactListItem>> GetList(GetContactListRequest r);
-        Task Save(ContactAllData c);
+        Task Save(ContactAllData contact);
         Task Delete(int contactId);
-        Task Update(ContactAllData c);
+        Task Update(ContactAllData contactAllData);
     }
 
     public class ContactsService : IContactsService
@@ -21,27 +21,32 @@ namespace PhoneBook.Services
         private readonly IContactDataProvider _contactData;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IDataProvider _data;
+        private readonly IAppService _appService;
 
         public ContactsService(
-            IContactDataProvider contactData, IMapper mapper, IUnitOfWork unitOfWork, IDataProvider data)
+            IContactDataProvider contactData,
+            IMapper mapper,
+            IUnitOfWork unitOfWork,
+            IAppService appService)
         {
             _contactData = contactData;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
-            _data = data;
+            _appService = appService;
         }
 
         public Task<ContactAllData> GetAllContactData(int contactId) => _contactData.GetAllContactData(contactId);
 
         public Task<IEnumerable<ContactListItem>> GetList(GetContactListRequest r) => _contactData.GetList(r);
 
-        public async Task Save(ContactAllData c)
+        public async Task Save(ContactAllData contact)
         {
-            var dbModel = _mapper.Map<Contact>(c);
-            _unitOfWork.Add(dbModel);
+            EnsureConsistency(contact);
+            var contactDbModel = _mapper.Map<Contact>(contact);
+            await _appService.IdentifyTags(contactDbModel.Tags.Select(e => e.Tag));
+            _unitOfWork.Add(contactDbModel);
             await _unitOfWork.PersistChanges();
-            c.Id = dbModel.Id;
+            contact.Id = contactDbModel.Id;
         }
 
         public async Task Delete(int contactId)
@@ -53,37 +58,43 @@ namespace PhoneBook.Services
             await _unitOfWork.PersistChanges();
         }
 
-        public async Task Update(ContactAllData contact)
+        public async Task Update(ContactAllData contactAllData)
         {
-            var contactDbModel = await _contactData.GetOne(
-                contact.Id,
+            var currentContactDbModel = await _contactData.GetOne(
+                contactAllData.Id,
                 includes => includes.Add(c => c.Tags).Add(c => c.Emails).Add(c => c.PhoneNumbers)
             );
 
-            _unitOfWork.DeleteRange(contactDbModel.Tags);
-            _unitOfWork.DeleteRange(contactDbModel.Emails);
-            _unitOfWork.DeleteRange(contactDbModel.PhoneNumbers);
 
+            _unitOfWork.DeleteRange(currentContactDbModel.Tags);
+            _unitOfWork.DeleteRange(currentContactDbModel.Emails);
+            _unitOfWork.DeleteRange(currentContactDbModel.PhoneNumbers);
             await _unitOfWork.PersistChanges();
 
-            var tagModels = await MapToTagModelsAndEnsureTheyArePersisted(contact.Tags);
 
-            var tagRelationModels = tagModels.Select(t =>
-                new ContactTag {ContactId = contact.Id, TagId = t.Id});
+            EnsureConsistency(contactAllData);
+            var updatedContactDbModel = _mapper.Map<Contact>(contactAllData);
 
-            _unitOfWork.Update(contactDbModel);
-            _unitOfWork.Add(tagRelationModels);
+            var contactTags = updatedContactDbModel.Tags.Select(e => e.Tag);
+            await _appService.IdentifyTags(contactTags);
+
+            foreach (var contactTag in updatedContactDbModel.Tags)
+                contactTag.RefreshTagId();
+
+            _unitOfWork.Update(updatedContactDbModel);
+            _unitOfWork.AddRange(updatedContactDbModel.Emails);
+            _unitOfWork.AddRange(updatedContactDbModel.PhoneNumbers);
+            _unitOfWork.AddRange(contactTags.Where(e => e.Id == 0));
+            _unitOfWork.AddRange(updatedContactDbModel.Tags);
 
             await _unitOfWork.PersistChanges();
         }
 
-        private async Task<IEnumerable<Tag>> MapToTagModelsAndEnsureTheyArePersisted(IEnumerable<string> tags)
+        private void EnsureConsistency(ContactAllData contact)
         {
-            var tagModels = tags.Select(v => new Tag { Value = v });
-            var tagsNotSaved = await _data.TagsNotSaved(tagModels);
-            _unitOfWork.AddRange(tagsNotSaved);
-             await _unitOfWork.PersistChanges();
-            return tagModels;
+            contact.Tags = contact.Tags.Distinct();
+            contact.Emails = contact.Emails.Distinct();
+            contact.PhoneNumbers = contact.PhoneNumbers.Distinct();
         }
     }
 }

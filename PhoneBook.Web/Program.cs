@@ -16,6 +16,7 @@ namespace PhoneBook.Web
             using (var services = host.Services.CreateScope())
             {
                 var db = services.ServiceProvider.GetService<PhoneBookDbContext>();
+                db.Database.EnsureCreated();
                 var countOfContacts = await db.Contacts.CountAsync();
                 if (countOfContacts == 0)
                 {

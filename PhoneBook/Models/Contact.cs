@@ -21,6 +21,8 @@ namespace PhoneBook.Models
         public int ContactId { get; set; }
         public int TagId { get; set; }
         public Tag Tag { get; set; }
+
+        public void RefreshTagId() => TagId = Tag.Id;
     }
 
     public class ContactEmail

@@ -9,7 +9,7 @@ namespace PhoneBook
         public MapperProfile()
         {
             CreateMap<Contact, ContactListItem>()
-                .ForMember(c => c.Tags, o => o.MapFrom(c => c.Tags.Select(t => t.Tag)));
+                .ForMember(c => c.Tags, o => o.MapFrom(c => c.Tags.Select(t => t.Tag.Value)));
 
             CreateMap<Contact, ContactAllData>()
                 .ForMember(cd => cd.PhoneNumbers,
