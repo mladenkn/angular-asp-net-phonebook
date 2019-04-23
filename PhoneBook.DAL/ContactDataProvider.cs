@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using PhoneBook.Abstract;
 using PhoneBook.DAL.Abstract;
 using PhoneBook.Models;
+using AutoMapper.QueryableExtensions;
 
 namespace PhoneBook.DAL
 {
@@ -46,7 +47,7 @@ namespace PhoneBook.DAL
         {
             var strComp = StringComparison.CurrentCultureIgnoreCase;
 
-            var models = await _query.Of<Contact>()
+            return await _query.Of<Contact>()
                 .Include(c => c.Tags)
                 .ThenInclude(t => t.Tag)
                 .Where(c => (r.FirstNameSearchString == null || 
@@ -58,9 +59,8 @@ namespace PhoneBook.DAL
                             (r.ContactMustContainSomeTags == null || r.ContactMustContainSomeTags.Any(
                                 t => c.Tags.Any(t2 => string.Equals(t, t2.Tag.Value, strComp))))
                 )
+                .ProjectTo<ContactListItem>(_mapper.ConfigurationProvider)
                 .ToListAsync();
-
-            return models.Select(m => _mapper.Map<ContactListItem>(m));
         }
     }
 }
