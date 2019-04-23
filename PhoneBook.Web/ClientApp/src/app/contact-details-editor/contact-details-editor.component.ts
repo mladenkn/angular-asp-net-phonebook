@@ -36,7 +36,7 @@ export class ContactDetailsEditorComponent implements OnInit {
         phoneNumbers: [],
         emails: []       
       }
-    this.phoneNumbersInput = this.editedContact.phoneNumbers.map(e => e.toString())
+    this.phoneNumbersInput = this.editedContact.phoneNumbers.map(e => e.toString());
   }
 
   addTag(e: MatChipInputEvent){
@@ -57,19 +57,19 @@ export class ContactDetailsEditorComponent implements OnInit {
   }
 
   setEmail(index: number, value: string){
-    this.editedContact.emails[index] = value
+    this.editedContact.emails[index] = value;
   }
 
   removeEmail(i: number){
-    this.editedContact.emails.splice(i, 1)
+    this.editedContact.emails.splice(i, 1);
   }
 
   addPhoneNumber(){
-    this.phoneNumbersInput.push('')      
+    this.phoneNumbersInput.push(''); 
   }
 
   setPhoneNumber(index: number, value: string){
-    this.phoneNumbersInput[index] = value
+    this.phoneNumbersInput[index] = value;
   }
 
   removePhoneNumber(i: number){
@@ -82,6 +82,6 @@ export class ContactDetailsEditorComponent implements OnInit {
   }
 
   triggerWantsToEdit(){
-    this.wantsToEdit.emit()
+    this.wantsToEdit.emit();
   }
 }

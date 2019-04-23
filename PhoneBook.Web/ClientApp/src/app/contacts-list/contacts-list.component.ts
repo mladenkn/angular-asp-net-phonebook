@@ -14,6 +14,6 @@ export class ContactsListComponent {
 
   wantsToDelete(contactId: number){
     this.contactService.delete(contactId)
-      .subscribe(_ => this.contacts = this.contacts.filter(c => c.id != contactId), console.error)
+      .subscribe(_ => this.contacts = this.contacts.filter(c => c.id != contactId), console.error);
   }
 }

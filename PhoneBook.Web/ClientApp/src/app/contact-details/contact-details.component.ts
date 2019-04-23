@@ -27,7 +27,7 @@ export class ContactDetailsComponent implements OnInit {
 
   wantsToFinishEditing(data: ContactDetails){
     this.contactService.update(data)
-      .subscribe(r => this.router.navigateByUrl("/contacts"), console.error)    
+      .subscribe(_ => this.router.navigateByUrl("/contacts"), console.error);  
   }
 
   wantsToEdit(){

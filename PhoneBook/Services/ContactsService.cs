@@ -43,9 +43,15 @@ namespace PhoneBook.Services
         {
             EnsureConsistency(contact);
             var contactDbModel = _mapper.Map<Contact>(contact);
-            await _appService.IdentifyTags(contactDbModel.Tags.Select(e => e.Tag));
+
+            await IdentifyTags(contactDbModel);
+            var unPersistedTags = contactDbModel.Tags.Select(e => e.Tag).Where(e => e.Id == 0);
+            _unitOfWork.SaveRange(unPersistedTags);
+            //await _unitOfWork.PersistChanges();
+
             _unitOfWork.Save(contactDbModel);
             await _unitOfWork.PersistChanges();
+
             contact.Id = contactDbModel.Id;
         }
 
@@ -65,6 +71,9 @@ namespace PhoneBook.Services
                 includes => includes.Add(c => c.Tags).Add(c => c.Emails).Add(c => c.PhoneNumbers)
             );
 
+            if(currentContactDbModel == null)
+                throw new ModelNotFoundException();
+
             _unitOfWork.DeleteRange(currentContactDbModel.Tags);
             _unitOfWork.DeleteRange(currentContactDbModel.Emails);
             _unitOfWork.DeleteRange(currentContactDbModel.PhoneNumbers);
@@ -74,19 +83,24 @@ namespace PhoneBook.Services
             EnsureConsistency(contactAllData);
             var updatedContactDbModel = _mapper.Map<Contact>(contactAllData);
 
-            var contactTags = updatedContactDbModel.Tags.Select(e => e.Tag);
-            await _appService.IdentifyTags(contactTags);
-
-            foreach (var contactTag in updatedContactDbModel.Tags)
-                contactTag.RefreshTagId();
+            await IdentifyTags(updatedContactDbModel);
+            var unPersistedTags = updatedContactDbModel.Tags.Select(e => e.Tag).Where(e => e.Id == 0);
 
             _unitOfWork.Update(updatedContactDbModel);
             _unitOfWork.SaveRange(updatedContactDbModel.Emails);
             _unitOfWork.SaveRange(updatedContactDbModel.PhoneNumbers);
-            _unitOfWork.SaveRange(contactTags.Where(e => e.Id == 0));
+            _unitOfWork.SaveRange(unPersistedTags);
             _unitOfWork.SaveRange(updatedContactDbModel.Tags);
 
             await _unitOfWork.PersistChanges();
+        }
+
+        private async Task IdentifyTags(Contact contact)
+        {
+            var contactTags = contact.Tags.Select(e => e.Tag);
+            await _appService.IdentifyTags(contactTags);
+            foreach (var contactTag in contact.Tags)
+                contactTag.SetTagId();
         }
 
         private void EnsureConsistency(ContactAllData contact)

@@ -22,7 +22,7 @@ namespace PhoneBook.Models
         public int TagId { get; set; }
         public Tag Tag { get; set; }
 
-        public void RefreshTagId() => TagId = Tag.Id;
+        public void SetTagId() => TagId = Tag.Id;
     }
 
     public class ContactEmail
