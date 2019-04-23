@@ -57,7 +57,7 @@
 //            var service = new ContactsService(contactDataProvider, mapper, unitOfWork, appService);
 
 //            var initialTags = initialTagValues.Select(t => new Tag { Value = t });
-//            db.Tags.AddRange(initialTags);
+//            db.Tags.SaveRange(initialTags);
 //            await db.SaveChangesAsync();
 
 //            await service.Save(contact);

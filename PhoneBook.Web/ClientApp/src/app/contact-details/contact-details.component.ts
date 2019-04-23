@@ -12,13 +12,17 @@ import { ContactDetailsEditorMode } from '../contact-details-editor/contact-deta
 export class ContactDetailsComponent implements OnInit {
 
   contact: ContactDetails;
+  loading = true
   mode: ContactDetailsEditorMode = ContactDetailsEditorMode.Readonly;
 
   constructor(private contactService: ContactService, private route: ActivatedRoute, private router: Router){}
   
   ngOnInit(): void {
     const contactId = +this.route.snapshot.paramMap.get("id");
-    this.contactService.getDetails(contactId).subscribe(r => this.contact = r, console.error);
+    this.contactService.getDetails(contactId).subscribe(r => {
+      this.loading = false;
+      return this.contact = r;
+    }, console.error);
   }
 
   wantsToFinishEditing(data: ContactDetails){

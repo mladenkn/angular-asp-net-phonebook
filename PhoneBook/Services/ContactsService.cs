@@ -44,7 +44,7 @@ namespace PhoneBook.Services
             EnsureConsistency(contact);
             var contactDbModel = _mapper.Map<Contact>(contact);
             await _appService.IdentifyTags(contactDbModel.Tags.Select(e => e.Tag));
-            _unitOfWork.Add(contactDbModel);
+            _unitOfWork.Save(contactDbModel);
             await _unitOfWork.PersistChanges();
             contact.Id = contactDbModel.Id;
         }
@@ -65,7 +65,6 @@ namespace PhoneBook.Services
                 includes => includes.Add(c => c.Tags).Add(c => c.Emails).Add(c => c.PhoneNumbers)
             );
 
-
             _unitOfWork.DeleteRange(currentContactDbModel.Tags);
             _unitOfWork.DeleteRange(currentContactDbModel.Emails);
             _unitOfWork.DeleteRange(currentContactDbModel.PhoneNumbers);
@@ -82,19 +81,19 @@ namespace PhoneBook.Services
                 contactTag.RefreshTagId();
 
             _unitOfWork.Update(updatedContactDbModel);
-            _unitOfWork.AddRange(updatedContactDbModel.Emails);
-            _unitOfWork.AddRange(updatedContactDbModel.PhoneNumbers);
-            _unitOfWork.AddRange(contactTags.Where(e => e.Id == 0));
-            _unitOfWork.AddRange(updatedContactDbModel.Tags);
+            _unitOfWork.SaveRange(updatedContactDbModel.Emails);
+            _unitOfWork.SaveRange(updatedContactDbModel.PhoneNumbers);
+            _unitOfWork.SaveRange(contactTags.Where(e => e.Id == 0));
+            _unitOfWork.SaveRange(updatedContactDbModel.Tags);
 
             await _unitOfWork.PersistChanges();
         }
 
         private void EnsureConsistency(ContactAllData contact)
         {
-            contact.Tags = contact.Tags.Distinct();
-            contact.Emails = contact.Emails.Distinct();
-            contact.PhoneNumbers = contact.PhoneNumbers.Distinct();
+            contact.Tags = contact.Tags != null ? contact.Tags.Distinct() : new string[] {};
+            contact.Emails = contact.Emails != null ? contact.Emails.Distinct() : new string[] {};
+            contact.PhoneNumbers = contact.PhoneNumbers != null ? contact.PhoneNumbers.Distinct() : new long[] {};
         }
     }
 }

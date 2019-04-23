@@ -14,6 +14,6 @@ export class ContactCreateComponent {
 
   wantsToSave(contact: ContactDetails){
     this.service.save(contact)
-      .subscribe(_ => this.router.navigateByUrl("/contacts"), console.error)      
+      .subscribe(_ => this.router.navigateByUrl("/contacts"), console.error);
   }
 }

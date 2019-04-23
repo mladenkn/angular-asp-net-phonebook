@@ -1,13 +1,12 @@
 <a routerLink="/contacts">To list</a>
 
 <div class="page-content">
-    <div *ngIf="contact; then showContact else showLoading"></div>
-    <ng-template #showContact>
+    <div *ngIf="loading">
+        Loading...
+    </div>
+    <div *ngIf="!loading">
         <contact-details-editor mode="{{mode}}" [contact]="contact"
             (wantsToEdit)="wantsToEdit($event)" (wantsToFinishEditing)="wantsToFinishEditing($event)">
         </contact-details-editor>
-    </ng-template>
-    <ng-template #showLoading>
-        Loading...
-    </ng-template>
+    </div>
 </div>

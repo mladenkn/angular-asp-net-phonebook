@@ -5,7 +5,7 @@ namespace PhoneBook.Abstract
 {
     public interface IUnitOfWork
     {
-        void Add(object m);
+        void Save(object m);
         void Update(object m);
         void Delete(object m);
         void Delete(IDeletable m);
@@ -14,10 +14,10 @@ namespace PhoneBook.Abstract
 
     public static class UnitOfWorkExtensions
     {
-        public static void AddRange(this IUnitOfWork unitOfWork, IEnumerable<object> models)
+        public static void SaveRange(this IUnitOfWork unitOfWork, IEnumerable<object> models)
         {
             foreach (var m in models)
-                unitOfWork.Add(m);
+                unitOfWork.Save(m);
         }
 
         public static void UpdateRange(this IUnitOfWork unitOfWork, IEnumerable<object> models)

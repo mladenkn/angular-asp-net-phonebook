@@ -31,7 +31,7 @@ export class ContactDetailsEditorComponent implements OnInit {
       {
         id: 0,
         firstName: '',
-        lastName: 'string',
+        lastName: '',
         tags: [],
         phoneNumbers: [],
         emails: []       

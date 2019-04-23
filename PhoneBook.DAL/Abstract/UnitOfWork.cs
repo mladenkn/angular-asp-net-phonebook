@@ -13,15 +13,11 @@ namespace PhoneBook.DAL.Abstract
             _dbContext = dbContext;
         }
 
-        public void Add(object m) => _dbContext.Add(m);
+        public void Save(object m) => _dbContext.Add(m);
 
         public void Update(object m) => _dbContext.Update(m);
 
-        public void Delete(object m)
-        {
-            var _ = _dbContext.ChangeTracker.Entries();
-            _dbContext.Remove(m);
-        }
+        public void Delete(object m) => _dbContext.Remove(m);
 
         public void Delete(IDeletable m)
         {

@@ -10,15 +10,21 @@ import { ContactService } from '../contact.service';
 export class HomeComponent implements OnInit {
 
   contacts: ContactListItem[]
+  loading: boolean
 
   constructor(private contactService: ContactService){}
 
-  ngOnInit(){
-    this.contactService.getList().subscribe(r => this.contacts = r);
-  }
+  ngOnInit(){ this.query() }
 
   requery(request: GetContactsRequest){
-    this.contacts = null
-    this.contactService.getList(request).subscribe(r => this.contacts = r);
+    this.query(request)
+  }
+  
+  query(request?: GetContactsRequest){
+    this.loading = true;
+    this.contactService.getList(request).subscribe(r => {
+      this.loading = false;
+      this.contacts = r;
+    }, console.error);
   }
 }
